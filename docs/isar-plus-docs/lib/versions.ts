@@ -18,7 +18,7 @@ export async function getVersions() {
             const { stable, dev } = await getPubVersions(pkg);
             return [
                 { pkg, version: `^${stable}` },
-                { pkg: `${pkg}_dev`, version: `^${dev}` },
+                { pkg: `${pkg}_dev`, version: dev },
             ];
         }),
     );
