@@ -69,6 +69,7 @@ jobs:
           github_action_config.auto_review: "true"
           github_action_config.auto_describe: "true"
           github_action_config.auto_improve: "false"
+          github_action_config.pr_actions: '["opened", "reopened", "ready_for_review", "review_requested", "synchronize"]'
           pr_reviewer.persistent_comment: "true"
           pr_reviewer.require_tests_review: "true"
           pr_reviewer.require_security_review: "true"
