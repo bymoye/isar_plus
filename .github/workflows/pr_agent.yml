@@ -48,8 +48,13 @@ jobs:
             echo "PR_AGENT_MODEL secret is required. Example: gemini/gemini-2.5-flash-lite"
             exit 1
           fi
+          if [ -n "${PR_AGENT_MODEL_MAX_TOKENS}" ] && ! echo "${PR_AGENT_MODEL_MAX_TOKENS}" | grep -Eq '^[1-9][0-9]*$'; then
+            echo "PR_AGENT_MODEL_MAX_TOKENS must be a positive integer."
+            exit 1
+          fi
         env:
           PR_AGENT_MODEL: ${{ secrets.PR_AGENT_MODEL }}
+          PR_AGENT_MODEL_MAX_TOKENS: ${{ secrets.PR_AGENT_MODEL_MAX_TOKENS }}
 
       - name: Run PR-Agent
         uses: the-pr-agent/pr-agent@main
@@ -58,6 +63,18 @@ jobs:
           GOOGLE_AI_STUDIO.GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           config.model: ${{ secrets.PR_AGENT_MODEL }}
           config.fallback_models: '["${{ secrets.PR_AGENT_MODEL }}"]'
+          config.custom_model_max_tokens: ${{ secrets.PR_AGENT_MODEL_MAX_TOKENS || '1048576' }}
+          config.enable_custom_labels: "true"
+          config.verbosity_level: "2"
           github_action_config.auto_review: "true"
           github_action_config.auto_describe: "true"
           github_action_config.auto_improve: "false"
+          pr_reviewer.persistent_comment: "true"
+          pr_reviewer.require_tests_review: "true"
+          pr_reviewer.require_security_review: "true"
+          pr_reviewer.num_max_findings: "8"
+          pr_description.publish_labels: "true"
+          pr_description.generate_ai_title: "false"
+          pr_description.use_description_markers: "true"
+          pr_description.enable_semantic_files_types: "true"
+          pr_description.collapsible_file_list: "adaptive"
