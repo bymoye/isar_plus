@@ -227,7 +227,8 @@ class IsarWorkerPool {
     _idleWorkers.clear();
     _pendingQueue.clear();
     _initFuture = null;
-    _customWorkerCount = null;
+    // Intentionally preserve _customWorkerCount so that a re-initialized pool
+    // reuses the caller's configured worker count.
   }
 
   /// Called by a [_WorkerHandle] after it finishes executing a task.
