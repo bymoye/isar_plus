@@ -142,6 +142,14 @@ class IsarWorkerPool {
     return (Platform.numberOfProcessors - 1).clamp(2, 8);
   }
 
+  /// Explicitly starts the worker isolates in the background.
+  ///
+  /// This can be called to "warm up" the pool so that the first call to [run]
+  /// doesn't experience the latency of spawning isolates.
+  ///
+  /// The pool is automatically warmed up when an Isar instance is opened.
+  static Future<void> warmUp() => _ensureInitialized();
+
   /// Ensures the pool is initialized, spawning worker isolates if needed.
   ///
   /// Returns the cached [_initFuture] if initialization is already in

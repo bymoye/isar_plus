@@ -204,3 +204,11 @@ Future<T> runIsolate<T>(
 ) async {
   return computation();
 }
+
+/// A worker pool stub for web platform.
+class IsarWorkerPool {
+  IsarWorkerPool._();
+
+  /// A no-op warm up method for web.
+  static Future<void> warmUp() async {}
+}

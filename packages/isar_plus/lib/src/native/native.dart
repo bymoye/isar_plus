@@ -11,6 +11,7 @@ export 'dart:isolate';
 
 export 'bindings.dart';
 export 'ffi.dart';
+export 'worker_pool.dart';
 
 /// @nodoc
 FutureOr<IsarCoreBindings> initializePlatformBindings([String? library]) {
