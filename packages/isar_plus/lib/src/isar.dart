@@ -40,8 +40,9 @@ abstract class Isar {
   /// Sets the number of background workers to be used for asynchronous
   /// operations.
   ///
-  /// By default, Isar uses 3 workers. Increasing this number can improve
-  /// performance for heavy workloads but will consume more memory.
+  /// By default, Isar uses `(Platform.numberOfProcessors - 1).clamp(2, 8)`
+  /// workers. Increasing this number can improve performance for heavy
+  /// workloads but will consume more memory.
   ///
   /// This method is only available on native platforms and must be called
   /// before any database operations.
