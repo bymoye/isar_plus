@@ -332,9 +332,8 @@ class _WorkerHandle {
     void Function(_WorkerHandle) onIdle,
   ) async {
     final responsePort = ReceivePort();
-    _sendPort.send([computation, responsePort.sendPort]);
-
     try {
+      _sendPort.send([computation, responsePort.sendPort]);
       final response = await responsePort.first;
       if (response is _WorkerError) {
         Error.throwWithStackTrace(response.error, response.stackTrace);
