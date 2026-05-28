@@ -11,9 +11,6 @@ on:
         required: true
         type: string
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   release_context:
     name: Release context
@@ -89,7 +86,7 @@ jobs:
               isar.js
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ needs.release_context.outputs.ref }}
       - name: Prepare Build
@@ -100,7 +97,7 @@ jobs:
       - name: Build binary
         run: bash tool/${{ matrix.script }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.artifact_name }}
           path: ${{ matrix.upload_path }}
@@ -116,7 +113,7 @@ jobs:
       id-token: write
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           ref: ${{ needs.release_context.outputs.ref }}
@@ -124,7 +121,7 @@ jobs:
       - uses: subosito/flutter-action@v2
       - name: Enable Swift Package Manager
         run: flutter config --enable-swift-package-manager
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: "20"
           registry-url: 'https://registry.npmjs.org'
@@ -132,7 +129,7 @@ jobs:
         run: echo "ISAR_VERSION=${{ needs.release_context.outputs.tag }}" >> $GITHUB_ENV
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: ./artifacts
 
