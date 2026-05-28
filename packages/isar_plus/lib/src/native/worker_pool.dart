@@ -239,10 +239,7 @@ class IsarWorkerPool {
       final task = _pendingQueue.removeFirst();
       worker
           .execute(task.computation, _onWorkerIdle)
-          .then(
-            task.completer.complete,
-            onError: task.completer.completeError,
-          );
+          .then(task.completer.complete, onError: task.completer.completeError);
       return;
     }
     _idleWorkers.addLast(worker);
