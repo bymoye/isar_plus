@@ -238,18 +238,10 @@ class IsarWorkerPool {
     _idleWorkers.clear();
     _pendingQueue.clear();
     _initFuture = null;
-    // Intentionally preserve _customWorkerCount so that a re-initialized pool
-    // reuses the caller's configured worker count.
   }
 
-  /// Called by a [_WorkerHandle] after it finishes executing a task.
-  ///
-  /// Attempts to immediately assign the next pending task to [worker]. If the
-  /// queue is empty the worker is returned to [_idleWorkers].
-  static int _generation = 0;
-
-  static void _onWorkerIdle(_WorkerHandle worker, int generation) {
-    if (generation != _generation || !_allWorkers.contains(worker)) return;
+  static void _onWorkerIdle(_WorkerHandle worker) {
+    if (!_allWorkers.contains(worker)) return;
     while (_pendingQueue.isNotEmpty) {
       final task = _pendingQueue.removeFirst();
       worker
