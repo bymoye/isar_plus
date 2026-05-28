@@ -246,8 +246,10 @@ class IsarWorkerPool {
   ///
   /// Attempts to immediately assign the next pending task to [worker]. If the
   /// queue is empty the worker is returned to [_idleWorkers].
-  static void _onWorkerIdle(_WorkerHandle worker) {
-    if (!_allWorkers.contains(worker)) return;
+  static int _generation = 0;
+
+  static void _onWorkerIdle(_WorkerHandle worker, int generation) {
+    if (generation != _generation || !_allWorkers.contains(worker)) return;
     while (_pendingQueue.isNotEmpty) {
       final task = _pendingQueue.removeFirst();
       worker
