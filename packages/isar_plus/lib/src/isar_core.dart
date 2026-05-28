@@ -81,15 +81,6 @@ abstract final class IsarCore {
     }
   }
 
-  static void _free() {
-    free(ptrPtr);
-    free(countPtr);
-    free(boolPtr);
-    if (!_nativeStringPtr.isNull) {
-      free(_nativeStringPtr);
-    }
-  }
-
   static Pointer<CString> _toNativeString(String str) {
     if (_nativeStringPtrLength < str.length) {
       if (_nativeStringPtr != nullptr) {

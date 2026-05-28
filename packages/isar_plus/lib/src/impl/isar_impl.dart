@@ -471,6 +471,5 @@ T _isarAsync<T, P>({
     }
   } finally {
     isar.close();
-    IsarCore._free();
   }
 }

@@ -1,3 +1,7 @@
+## 1.2.9
+
+* fix(native): prevent Scudo `invalid chunk state` crash in async operations by removing per-task `IsarCore` buffer cleanup when running on long-lived worker pool isolates.
+
 ## 1.2.8
 
 * feat: implement static worker pool for parallel execution on native platforms. This reuses isolates to significantly reduce the overhead of asynchronous operations.
