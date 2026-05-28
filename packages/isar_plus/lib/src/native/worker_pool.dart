@@ -166,7 +166,18 @@ class IsarWorkerPool {
       count,
       (i) => _WorkerHandle.spawn('Isar Worker ${i + 1}'),
     );
-    final workers = await Future.wait(futures);
+
+    final List<_WorkerHandle> workers;
+    try {
+      workers = await Future.wait(futures);
+    } catch (_) {
+      for (final future in futures) {
+        future.then((w) => w.dispose(), onError: (_) {});
+      }
+      _initFuture = null;
+      rethrow;
+    }
+
     _allWorkers.addAll(workers);
     _idleWorkers.addAll(workers);
   }
@@ -219,7 +230,7 @@ class IsarWorkerPool {
   /// await IsarWorkerPool.dispose();
   /// ```
   static Future<void> dispose() async {
-    await _initFuture;
+    await _initFuture?.catchError((_) {});
     for (final worker in _allWorkers) {
       worker.dispose();
     }
@@ -236,6 +247,7 @@ class IsarWorkerPool {
   /// Attempts to immediately assign the next pending task to [worker]. If the
   /// queue is empty the worker is returned to [_idleWorkers].
   static void _onWorkerIdle(_WorkerHandle worker) {
+    if (!_allWorkers.contains(worker)) return;
     while (_pendingQueue.isNotEmpty) {
       final task = _pendingQueue.removeFirst();
       worker
