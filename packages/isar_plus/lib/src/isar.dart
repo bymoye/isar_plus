@@ -37,6 +37,22 @@ abstract class Isar {
     return IsarCore._initialize(library: library, explicit: true);
   }
 
+  /// Sets the number of background workers to be used for asynchronous
+  /// operations.
+  ///
+  /// By default, Isar uses 3 workers. Increasing this number can improve
+  /// performance for heavy workloads but will consume more memory.
+  ///
+  /// This method is only available on native platforms and must be called
+  /// before any database operations.
+  static void setWorkerCount(int workerCount) {
+    if (!IsarCore.kIsWeb) {
+      IsarWorkerPool.configure(workerCount);
+    } else {
+      throw UnimplementedError('setWorkerCount is not supported on web');
+    }
+  }
+
   /// Get an already opened Isar instance by its name.
   ///
   /// This method is especially useful to get an Isar instance from an isolate.

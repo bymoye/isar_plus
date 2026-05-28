@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
-import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
 import 'package:isar_plus/isar_plus.dart';
 import 'package:isar_plus/src/native/bindings.dart';
+import 'package:isar_plus/src/native/worker_pool.dart';
 
 export 'dart:isolate';
 
@@ -112,5 +112,5 @@ int platformFastHash(String string) {
 /// @nodoc
 @tryInline
 Future<T> runIsolate<T>(String debugName, FutureOr<T> Function() computation) {
-  return Isolate.run(computation, debugName: debugName);
+  return IsarWorkerPool.run<T>(computation);
 }
