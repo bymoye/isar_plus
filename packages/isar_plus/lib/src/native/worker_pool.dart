@@ -377,7 +377,16 @@ void _workerEntry(SendPort mainSendPort) {
     try {
       replyPort.send(await computation());
     } on Object catch (e, st) {
-      replyPort.send(_WorkerError(e, st));
+      try {
+        replyPort.send(_WorkerError(e, st));
+      } on Object catch (_) {
+        replyPort.send(
+          _WorkerError(
+            ArgumentError('Task failed with unsendable error: $e'),
+            StackTrace.empty,
+          ),
+        );
+      }
     }
   });
 }
