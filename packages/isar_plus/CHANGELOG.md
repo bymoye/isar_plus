@@ -1,3 +1,9 @@
+## 1.2.8
+
+* feat: implement static worker pool for parallel execution on native platforms. This reuses isolates to significantly reduce the overhead of asynchronous operations.
+* feat: add `Isar.setWorkerCount(int count)` to allow customizing the number of background workers.
+* feat: introduce eager initialization of worker isolates ("warm up") to eliminate latency for the first asynchronous call.
+
 ## 1.2.7
 
 * chore: update isar_plus and isar_plus_test dependencies to latest versions
