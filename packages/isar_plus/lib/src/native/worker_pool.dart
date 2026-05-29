@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:logger/logger.dart';
 import 'package:meta/meta.dart' show visibleForTesting;
 
 /// A function type that represents a unit of work to be executed on a worker
@@ -84,6 +85,14 @@ class IsarWorkerPool {
   // Private constructor prevents instantiation – this is a purely static API.
   IsarWorkerPool._();
 
+  static final _logger = Logger(
+    printer: PrettyPrinter(
+      methodCount: 0,
+      errorMethodCount: 0,
+      printEmojis: false,
+    ),
+  );
+
   /// Overrides the default worker count set by [configure].
   ///
   /// `null` means "use the platform default".
@@ -113,11 +122,8 @@ class IsarWorkerPool {
   /// [workerCount] is clamped to the range `[1, 16]`.
   ///
   /// Must be called **before** the first [run] (i.e., before the pool is
-  /// initialized). Calling it after initialization throws an
-  /// [UnsupportedError].
-  ///
-  /// Throws:
-  /// - [UnsupportedError] if the pool has already been initialized.
+  /// initialized). Calling it after initialization has no effect — a warning
+  /// is printed instead. Call [dispose] first to reconfigure.
   ///
   /// Example:
   /// ```dart
@@ -125,9 +131,8 @@ class IsarWorkerPool {
   /// ```
   static void configure(int workerCount) {
     if (_initFuture != null) {
-      throw UnsupportedError(
-        'IsarWorkerPool is already initialized and cannot be reconfigured.',
-      );
+      _logger.w('Worker count can only be configured before the first run');
+      return;
     }
     _customWorkerCount = workerCount.clamp(1, 16);
   }
