@@ -1,3 +1,7 @@
+## 1.3.1
+
+* fix(native): worker pool was removed because it could not provide the desired results. Further work is needed on this issue.
+
 ## 1.3.0
 
 * refactor: rename all compiled native binary filenames, Rust crate names, and Apple SPM package architectures from `isar` to `isar_plus` (e.g. `libisar` -> `libisar_plus`, `IsarPlusCore` -> `isar_plus_core`) to eliminate naming conflicts and fully align the codebase to the project package namespace.
