@@ -104,7 +104,7 @@ pub unsafe fn dart_pause_isolate<T, F: FnOnce() -> T>(callback: F) -> T {
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_connect_dart_api(ptr: *mut c_void) {
+pub unsafe extern "C" fn isar_plus_connect_dart_api(ptr: *mut c_void) {
     let functions = unsafe {
         let api = ptr as *const DartApi;
         let api = &*api;

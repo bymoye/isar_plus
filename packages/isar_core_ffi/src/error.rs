@@ -52,7 +52,7 @@ pub const ERROR_ENCRYPTION: u8 = 6;
 pub const ERROR_DB_FULL: u8 = 7;
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_get_error(value: *mut *const u8) -> u32 {
+pub unsafe extern "C" fn isar_plus_get_error(value: *mut *const u8) -> u32 {
     ERROR.with_borrow(|e| {
         if let Some(msg) = e.as_ref() {
             *value = msg.as_ptr();

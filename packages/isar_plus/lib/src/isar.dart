@@ -310,7 +310,7 @@ abstract class Isar {
     final directoryPtr = IsarCore._toNativeString(directory);
 
     IsarCore.b
-        .isar_delete_database(
+        .isar_plus_delete_database(
           namePtr,
           directoryPtr,
           engine == IsarEngine.sqlite,

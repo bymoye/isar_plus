@@ -6,7 +6,7 @@ use isar_core::core::insert::IsarInsert;
 use isar_core::core::instance::IsarInstance;
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_insert(
+pub unsafe extern "C" fn isar_plus_insert(
     isar: &'static CIsarInstance,
     txn: *mut CIsarTxn,
     collection_index: u16,
@@ -33,7 +33,7 @@ pub unsafe extern "C" fn isar_insert(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_insert_save(insert: &mut CIsarWriter<'static>, id: IsarI64) -> u8 {
+pub unsafe extern "C" fn isar_plus_insert_save(insert: &mut CIsarWriter<'static>, id: IsarI64) -> u8 {
     let id = isar_to_i64(id);
     isar_try! {
         match insert {
@@ -47,7 +47,7 @@ pub unsafe extern "C" fn isar_insert_save(insert: &mut CIsarWriter<'static>, id:
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_insert_finish(
+pub unsafe extern "C" fn isar_plus_insert_finish(
     insert: *mut CIsarWriter,
     txn: *mut *const CIsarTxn,
 ) -> u8 {
@@ -65,6 +65,6 @@ pub unsafe extern "C" fn isar_insert_finish(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_insert_abort(insert: *mut CIsarWriter) {
+pub unsafe extern "C" fn isar_plus_insert_abort(insert: *mut CIsarWriter) {
     let _ = *Box::from_raw(insert);
 }

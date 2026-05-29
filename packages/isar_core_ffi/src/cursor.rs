@@ -3,7 +3,7 @@ use isar_core::core::cursor::{IsarCursor, IsarQueryCursor};
 use std::ptr;
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_cursor_next(
+pub unsafe extern "C" fn isar_plus_cursor_next(
     cursor: &'static mut CIsarCursor,
     id: IsarI64,
     old_reader: *mut CIsarReader,
@@ -28,7 +28,7 @@ pub unsafe extern "C" fn isar_cursor_next(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_cursor_free(cursor: *mut CIsarCursor, reader: *mut CIsarReader) {
+pub unsafe extern "C" fn isar_plus_cursor_free(cursor: *mut CIsarCursor, reader: *mut CIsarReader) {
     if !cursor.is_null() {
         drop(Box::from_raw(cursor));
     }
@@ -38,7 +38,7 @@ pub unsafe extern "C" fn isar_cursor_free(cursor: *mut CIsarCursor, reader: *mut
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_query_cursor_next(
+pub unsafe extern "C" fn isar_plus_query_cursor_next(
     cursor: &'static mut CIsarQueryCursor,
     old_reader: *mut CIsarReader,
 ) -> *const CIsarReader<'static> {
@@ -60,7 +60,7 @@ pub unsafe extern "C" fn isar_query_cursor_next(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_query_cursor_free(
+pub unsafe extern "C" fn isar_plus_query_cursor_free(
     cursor: *mut CIsarQueryCursor,
     reader: *mut CIsarReader,
 ) {

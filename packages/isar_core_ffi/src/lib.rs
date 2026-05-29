@@ -161,21 +161,21 @@ pub enum CIsarQueryCursor<'a> {
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_string(chars: *const u16, length: u32) -> *const String {
+pub unsafe extern "C" fn isar_plus_string(chars: *const u16, length: u32) -> *const String {
     let chars = slice::from_raw_parts(chars, length as usize);
     let value = String::from_utf16_lossy(chars);
     Box::into_raw(Box::new(value))
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_string_free(value: *mut String) {
+pub unsafe extern "C" fn isar_plus_string_free(value: *mut String) {
     if !value.is_null() {
         drop(Box::from_raw(value));
     }
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_buffer_free(value: *mut u8, capacity: u32) {
+pub unsafe extern "C" fn isar_plus_buffer_free(value: *mut u8, capacity: u32) {
     if !value.is_null() {
         drop(Vec::from_raw_parts(value, 0, capacity as usize));
     }

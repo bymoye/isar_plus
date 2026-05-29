@@ -5,14 +5,14 @@ Pointer<CFilter> _buildFilter(Filter filter, List<Pointer<void>> pointers) {
     case EqualCondition():
       final value = filter.value;
       if (value is double) {
-        return IsarCore.b.isar_filter_between(
+        return IsarCore.b.isar_plus_filter_between(
           filter.property,
           _isarValue(_adjustLowerFloatBound(value, true, filter.epsilon)),
           _isarValue(_adjustUpperFloatBound(value, true, filter.epsilon)),
           filter.caseSensitive,
         );
       } else {
-        return IsarCore.b.isar_filter_equal(
+        return IsarCore.b.isar_plus_filter_equal(
           filter.property,
           _isarValue(filter.value),
           filter.caseSensitive,
@@ -23,7 +23,7 @@ Pointer<CFilter> _buildFilter(Filter filter, List<Pointer<void>> pointers) {
       final value = rawValue is double
           ? _adjustLowerFloatBound(rawValue, false, filter.epsilon)
           : rawValue;
-      return IsarCore.b.isar_filter_greater(
+      return IsarCore.b.isar_plus_filter_greater(
         filter.property,
         _isarValue(value),
         filter.caseSensitive,
@@ -33,7 +33,7 @@ Pointer<CFilter> _buildFilter(Filter filter, List<Pointer<void>> pointers) {
       final value = rawValue is double
           ? _adjustLowerFloatBound(rawValue, true, filter.epsilon)
           : rawValue;
-      return IsarCore.b.isar_filter_greater_or_equal(
+      return IsarCore.b.isar_plus_filter_greater_or_equal(
         filter.property,
         _isarValue(value),
         filter.caseSensitive,
@@ -43,7 +43,7 @@ Pointer<CFilter> _buildFilter(Filter filter, List<Pointer<void>> pointers) {
       final value = rawValue is double
           ? _adjustUpperFloatBound(rawValue, false, filter.epsilon)
           : rawValue;
-      return IsarCore.b.isar_filter_less(
+      return IsarCore.b.isar_plus_filter_less(
         filter.property,
         _isarValue(value),
         filter.caseSensitive,
@@ -53,7 +53,7 @@ Pointer<CFilter> _buildFilter(Filter filter, List<Pointer<void>> pointers) {
       final value = rawValue is double
           ? _adjustUpperFloatBound(rawValue, true, filter.epsilon)
           : rawValue;
-      return IsarCore.b.isar_filter_less_or_equal(
+      return IsarCore.b.isar_plus_filter_less_or_equal(
         filter.property,
         _isarValue(value),
         filter.caseSensitive,
@@ -67,38 +67,38 @@ Pointer<CFilter> _buildFilter(Filter filter, List<Pointer<void>> pointers) {
       final upper = rawUpper is double
           ? _adjustUpperFloatBound(rawUpper, true, filter.epsilon)
           : rawUpper;
-      return IsarCore.b.isar_filter_between(
+      return IsarCore.b.isar_plus_filter_between(
         filter.property,
         _isarValue(lower),
         _isarValue(upper),
         filter.caseSensitive,
       );
     case StartsWithCondition():
-      return IsarCore.b.isar_filter_string_starts_with(
+      return IsarCore.b.isar_plus_filter_string_starts_with(
         filter.property,
         _isarValue(filter.value),
         filter.caseSensitive,
       );
     case EndsWithCondition():
-      return IsarCore.b.isar_filter_string_ends_with(
+      return IsarCore.b.isar_plus_filter_string_ends_with(
         filter.property,
         _isarValue(filter.value),
         filter.caseSensitive,
       );
     case ContainsCondition():
-      return IsarCore.b.isar_filter_string_contains(
+      return IsarCore.b.isar_plus_filter_string_contains(
         filter.property,
         _isarValue(filter.value),
         filter.caseSensitive,
       );
     case MatchesCondition():
-      return IsarCore.b.isar_filter_string_matches(
+      return IsarCore.b.isar_plus_filter_string_matches(
         filter.property,
         _isarValue(filter.wildcard),
         filter.caseSensitive,
       );
     case IsNullCondition():
-      return IsarCore.b.isar_filter_is_null(filter.property);
+      return IsarCore.b.isar_plus_filter_is_null(filter.property);
     case AndGroup():
       if (filter.filters.length == 1) {
         return _buildFilter(filter.filters[0], pointers);
@@ -108,7 +108,7 @@ Pointer<CFilter> _buildFilter(Filter filter, List<Pointer<void>> pointers) {
         for (var i = 0; i < filter.filters.length; i++) {
           filtersPtrPtr.setPtrAt(i, _buildFilter(filter.filters[i], pointers));
         }
-        return IsarCore.b.isar_filter_and(filtersPtrPtr, filter.filters.length);
+        return IsarCore.b.isar_plus_filter_and(filtersPtrPtr, filter.filters.length);
       }
     case OrGroup():
       if (filter.filters.length == 1) {
@@ -119,12 +119,12 @@ Pointer<CFilter> _buildFilter(Filter filter, List<Pointer<void>> pointers) {
         for (var i = 0; i < filter.filters.length; i++) {
           filtersPtrPtr.setPtrAt(i, _buildFilter(filter.filters[i], pointers));
         }
-        return IsarCore.b.isar_filter_or(filtersPtrPtr, filter.filters.length);
+        return IsarCore.b.isar_plus_filter_or(filtersPtrPtr, filter.filters.length);
       }
     case NotGroup():
-      return IsarCore.b.isar_filter_not(_buildFilter(filter.filter, pointers));
+      return IsarCore.b.isar_plus_filter_not(_buildFilter(filter.filter, pointers));
     case ObjectFilter():
-      return IsarCore.b.isar_filter_nested(
+      return IsarCore.b.isar_plus_filter_nested(
         filter.property,
         _buildFilter(filter.filter, pointers),
       );
@@ -135,17 +135,17 @@ Pointer<CIsarValue> _isarValue(Object? value) {
   if (value == null) {
     return nullptr;
   } else if (value is double) {
-    return IsarCore.b.isar_value_real(value);
+    return IsarCore.b.isar_plus_value_real(value);
     // Need to check int separately from num for proper type handling
     // ignore: avoid_double_and_int_checks
   } else if (value is int) {
-    return IsarCore.b.isar_value_integer(value);
+    return IsarCore.b.isar_plus_value_integer(value);
   } else if (value is String) {
-    return IsarCore.b.isar_value_string(IsarCore._toNativeString(value));
+    return IsarCore.b.isar_plus_value_string(IsarCore._toNativeString(value));
   } else if (value is bool) {
-    return IsarCore.b.isar_value_bool(value);
+    return IsarCore.b.isar_plus_value_bool(value);
   } else if (value is DateTime) {
-    return IsarCore.b.isar_value_integer(value.toUtc().microsecondsSinceEpoch);
+    return IsarCore.b.isar_plus_value_integer(value.toUtc().microsecondsSinceEpoch);
   } else {
     throw ArgumentError('Unsupported filter value type: ${value.runtimeType}');
   }

@@ -3,7 +3,7 @@ use isar_core::core::writer::IsarWriter;
 use std::slice;
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_write_null(writer: &'static mut CIsarWriter, index: u32) {
+pub unsafe extern "C" fn isar_plus_write_null(writer: &'static mut CIsarWriter, index: u32) {
     match writer {
         #[cfg(feature = "native")]
         CIsarWriter::Native(writer) => writer.write_null(index),
@@ -21,7 +21,7 @@ pub unsafe extern "C" fn isar_write_null(writer: &'static mut CIsarWriter, index
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_write_bool(
+pub unsafe extern "C" fn isar_plus_write_bool(
     writer: &'static mut CIsarWriter,
     index: u32,
     value: bool,
@@ -43,7 +43,7 @@ pub unsafe extern "C" fn isar_write_bool(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_write_byte(writer: &'static mut CIsarWriter, index: u32, value: u8) {
+pub unsafe extern "C" fn isar_plus_write_byte(writer: &'static mut CIsarWriter, index: u32, value: u8) {
     match writer {
         #[cfg(feature = "native")]
         CIsarWriter::Native(writer) => writer.write_byte(index, value),
@@ -61,7 +61,7 @@ pub unsafe extern "C" fn isar_write_byte(writer: &'static mut CIsarWriter, index
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_write_int(writer: &'static mut CIsarWriter, index: u32, value: i32) {
+pub unsafe extern "C" fn isar_plus_write_int(writer: &'static mut CIsarWriter, index: u32, value: i32) {
     match writer {
         #[cfg(feature = "native")]
         CIsarWriter::Native(writer) => writer.write_int(index, value),
@@ -79,7 +79,7 @@ pub unsafe extern "C" fn isar_write_int(writer: &'static mut CIsarWriter, index:
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_write_float(
+pub unsafe extern "C" fn isar_plus_write_float(
     writer: &'static mut CIsarWriter,
     index: u32,
     value: f32,
@@ -101,7 +101,7 @@ pub unsafe extern "C" fn isar_write_float(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_write_long(
+pub unsafe extern "C" fn isar_plus_write_long(
     writer: &'static mut CIsarWriter,
     index: u32,
     value: IsarI64,
@@ -124,7 +124,7 @@ pub unsafe extern "C" fn isar_write_long(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_write_double(
+pub unsafe extern "C" fn isar_plus_write_double(
     writer: &'static mut CIsarWriter,
     index: u32,
     value: f64,
@@ -146,7 +146,7 @@ pub unsafe extern "C" fn isar_write_double(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_write_string(
+pub unsafe extern "C" fn isar_plus_write_string(
     writer: &'static mut CIsarWriter,
     index: u32,
     value: *mut String,
@@ -169,7 +169,7 @@ pub unsafe extern "C" fn isar_write_string(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_write_json(
+pub unsafe extern "C" fn isar_plus_write_json(
     writer: &'static mut CIsarWriter,
     index: u32,
     value: *mut String,
@@ -192,7 +192,7 @@ pub unsafe extern "C" fn isar_write_json(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_write_byte_list(
+pub unsafe extern "C" fn isar_plus_write_byte_list(
     writer: &'static mut CIsarWriter,
     index: u32,
     value: *const u8,
@@ -216,7 +216,7 @@ pub unsafe extern "C" fn isar_write_byte_list(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_write_object(
+pub unsafe extern "C" fn isar_plus_write_object(
     writer: &'static mut CIsarWriter,
     index: u32,
 ) -> *mut CIsarWriter<'static> {
@@ -250,7 +250,7 @@ pub unsafe extern "C" fn isar_write_object(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_write_object_end(
+pub unsafe extern "C" fn isar_plus_write_object_end(
     writer: &'static mut CIsarWriter,
     embedded_writer: *mut CIsarWriter<'static>,
 ) {
@@ -285,7 +285,7 @@ pub unsafe extern "C" fn isar_write_object_end(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_write_list(
+pub unsafe extern "C" fn isar_plus_write_list(
     writer: &'static mut CIsarWriter,
     index: u32,
     length: u32,
@@ -313,7 +313,7 @@ pub unsafe extern "C" fn isar_write_list(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_write_list_end(
+pub unsafe extern "C" fn isar_plus_write_list_end(
     writer: &'static mut CIsarWriter,
     list_writer: *mut CIsarWriter<'static>,
 ) {

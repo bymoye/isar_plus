@@ -20,7 +20,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
   @override
   int autoIncrement() {
     if (0 is ID) {
-      return IsarCore.b.isar_auto_increment(isar.getPtr(), collectionIndex);
+      return IsarCore.b.isar_plus_auto_increment(isar.getPtr(), collectionIndex);
     } else {
       throw UnsupportedError(
         'Collections with String IDs do not support auto increment.',
@@ -35,19 +35,19 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
       final cursorPtrPtr = IsarCore.ptrPtr.cast<Pointer<CIsarCursor>>();
 
       IsarCore.b
-          .isar_cursor(isarPtr, txnPtr, collectionIndex, cursorPtrPtr)
+          .isar_plus_cursor(isarPtr, txnPtr, collectionIndex, cursorPtrPtr)
           .checkNoError();
 
       final cursorPtr = cursorPtrPtr.ptrValue;
       Pointer<CIsarReader> readerPtr = nullptr;
       for (var i = 0; i < ids.length; i++) {
         final id = _idToInt(ids[i]);
-        readerPtr = IsarCore.b.isar_cursor_next(cursorPtr, id, readerPtr);
+        readerPtr = IsarCore.b.isar_plus_cursor_next(cursorPtr, id, readerPtr);
         if (!readerPtr.isNull) {
           objects[i] = converter.deserialize(readerPtr);
         }
       }
-      IsarCore.b.isar_cursor_free(cursorPtr, readerPtr);
+      IsarCore.b.isar_plus_cursor_free(cursorPtr, readerPtr);
       return objects;
     });
   }
@@ -60,7 +60,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
       final writerPtrPtr = IsarCore.ptrPtr.cast<Pointer<CIsarWriter>>();
 
       IsarCore.b
-          .isar_insert(
+          .isar_plus_insert(
             isarPtr,
             txnPtr,
             collectionIndex,
@@ -73,15 +73,15 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
       try {
         for (final object in objects) {
           final id = converter.serialize(insertPtr, object);
-          IsarCore.b.isar_insert_save(insertPtr, id).checkNoError();
+          IsarCore.b.isar_plus_insert_save(insertPtr, id).checkNoError();
         }
       } catch (e) {
-        IsarCore.b.isar_insert_abort(insertPtr);
+        IsarCore.b.isar_plus_insert_abort(insertPtr);
         rethrow;
       }
 
       final txnPtrPtr = IsarCore.ptrPtr.cast<Pointer<CIsarTxn>>();
-      IsarCore.b.isar_insert_finish(insertPtr, txnPtrPtr).checkNoError();
+      IsarCore.b.isar_plus_insert_finish(insertPtr, txnPtrPtr).checkNoError();
 
       return (null, txnPtrPtr.ptrValue);
     });
@@ -91,10 +91,10 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
   int updateProperties(List<ID> ids, Map<int, dynamic> changes) {
     if (ids.isEmpty) return 0;
 
-    final updatePtr = IsarCore.b.isar_update_new();
+    final updatePtr = IsarCore.b.isar_plus_update_new();
     for (final propertyId in changes.keys) {
       final value = _isarValue(changes[propertyId]);
-      IsarCore.b.isar_update_add_value(updatePtr, propertyId, value);
+      IsarCore.b.isar_plus_update_add_value(updatePtr, propertyId, value);
     }
 
     return isar.getWriteTxn((isarPtr, txnPtr) {
@@ -102,7 +102,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
       final updatedPtr = IsarCore.boolPtr;
       for (final id in ids) {
         IsarCore.b
-            .isar_update(
+            .isar_plus_update(
               isarPtr,
               txnPtr,
               collectionIndex,
@@ -125,7 +125,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
   bool delete(ID id) {
     return isar.getWriteTxn((isarPtr, txnPtr) {
       IsarCore.b
-          .isar_delete(
+          .isar_plus_delete(
             isarPtr,
             txnPtr,
             collectionIndex,
@@ -146,7 +146,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
       var count = 0;
       for (final id in ids) {
         IsarCore.b
-            .isar_delete(
+            .isar_plus_delete(
               isarPtr,
               txnPtr,
               collectionIndex,
@@ -172,7 +172,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
   @override
   int count() {
     return isar.getTxn((isarPtr, txnPtr) {
-      IsarCore.b.isar_count(
+      IsarCore.b.isar_plus_count(
         isarPtr,
         txnPtr,
         collectionIndex,
@@ -185,7 +185,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
   @override
   int getSize({bool includeIndexes = false}) {
     return isar.getTxn((isarPtr, txnPtr) {
-      return IsarCore.b.isar_get_size(
+      return IsarCore.b.isar_plus_get_size(
         isarPtr,
         txnPtr,
         collectionIndex,
@@ -201,7 +201,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
         ..ptrValue = txnPtr;
       final nativeString = IsarCore._toNativeString(json);
       IsarCore.b
-          .isar_import_json(
+          .isar_plus_import_json(
             isarPtr,
             txnPtrPtr,
             collectionIndex,
@@ -216,7 +216,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
   @override
   void clear() {
     return isar.getWriteTxn((isarPtr, txnPtr) {
-      IsarCore.b.isar_clear(isarPtr, txnPtr, collectionIndex);
+      IsarCore.b.isar_plus_clear(isarPtr, txnPtr, collectionIndex);
       return (null, txnPtr);
     });
   }
@@ -231,7 +231,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
     final handlePtrPtr = IsarCore.ptrPtr.cast<Pointer<CWatchHandle>>();
 
     IsarCore.b
-        .isar_watch_collection(
+        .isar_plus_watch_collection(
           isar.getPtr(),
           collectionIndex,
           port.sendPort.nativePort,
@@ -243,7 +243,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
     final controller = StreamController<void>(
       onCancel: () {
         isar.getPtr(); // Make sure Isar is not closed
-        IsarCore.b.isar_stop_watching(handlePtr);
+        IsarCore.b.isar_plus_stop_watching(handlePtr);
         port.close();
       },
     );
@@ -267,7 +267,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
     final handlePtrPtr = IsarCore.ptrPtr.cast<Pointer<CWatchHandle>>();
 
     IsarCore.b
-        .isar_watch_collection_detailed(
+        .isar_plus_watch_collection_detailed(
           isar.getPtr(),
           collectionIndex,
           port.sendPort.nativePort,
@@ -279,7 +279,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
     final controller = StreamController<ChangeDetail<T>>(
       onCancel: () {
         isar.getPtr(); // Make sure Isar is not closed
-        IsarCore.b.isar_stop_watching(handlePtr);
+        IsarCore.b.isar_plus_stop_watching(handlePtr);
         port.close();
       },
     );
@@ -317,7 +317,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
     final handlePtrPtr = IsarCore.ptrPtr.cast<Pointer<CWatchHandle>>();
 
     IsarCore.b
-        .isar_watch_object(
+        .isar_plus_watch_object(
           isar.getPtr(),
           collectionIndex,
           _idToInt(id),
@@ -330,7 +330,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
     final controller = StreamController<void>(
       onCancel: () {
         isar.getPtr(); // Make sure Isar is not closed
-        IsarCore.b.isar_stop_watching(handlePtr);
+        IsarCore.b.isar_plus_stop_watching(handlePtr);
         port.close();
       },
     );
@@ -356,7 +356,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
 
     final builderPtrPtr = malloc<Pointer<CIsarQueryBuilder>>();
     IsarCore.b
-        .isar_query_new(isar.getPtr(), collectionIndex, builderPtrPtr)
+        .isar_plus_query_new(isar.getPtr(), collectionIndex, builderPtrPtr)
         .checkNoError();
 
     final builderPtr = builderPtrPtr.ptrValue;
@@ -364,7 +364,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
       final pointers = <Pointer<Never>>[];
       try {
         final filterPtr = _buildFilter(filter, pointers);
-        IsarCore.b.isar_query_set_filter(builderPtr, filterPtr);
+        IsarCore.b.isar_plus_query_set_filter(builderPtr, filterPtr);
       } finally {
         pointers.forEach(free);
       }
@@ -372,7 +372,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
 
     if (sortBy != null) {
       for (final sort in sortBy) {
-        IsarCore.b.isar_query_add_sort(
+        IsarCore.b.isar_plus_query_add_sort(
           builderPtr,
           sort.property,
           sort.sort == Sort.asc,
@@ -383,7 +383,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
 
     if (distinctBy != null) {
       for (final distinct in distinctBy) {
-        IsarCore.b.isar_query_add_distinct(
+        IsarCore.b.isar_plus_query_add_distinct(
           builderPtr,
           distinct.property,
           distinct.caseSensitive,
@@ -423,7 +423,7 @@ class _IsarCollectionImpl<ID, OBJ> extends IsarCollection<ID, OBJ> {
                 as R;
     }
 
-    final queryPtr = IsarCore.b.isar_query_build(builderPtr);
+    final queryPtr = IsarCore.b.isar_plus_query_build(builderPtr);
     return _IsarQueryImpl(
       instanceId: isar.instanceId,
       ptrAddress: queryPtr.address,

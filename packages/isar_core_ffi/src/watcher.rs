@@ -10,7 +10,7 @@ use crate::dart::{dart_post_int, dart_post_string, DartPort};
 use crate::{isar_try, CIsarInstance, CIsarQuery};
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_watch_collection(
+pub unsafe extern "C" fn isar_plus_watch_collection(
     isar: &'static CIsarInstance,
     collection_index: u16,
     port: DartPort,
@@ -31,7 +31,7 @@ pub unsafe extern "C" fn isar_watch_collection(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_watch_object(
+pub unsafe extern "C" fn isar_plus_watch_object(
     isar: &'static CIsarInstance,
     collection_index: u16,
     id: i64,
@@ -53,7 +53,7 @@ pub unsafe extern "C" fn isar_watch_object(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_watch_query(
+pub unsafe extern "C" fn isar_plus_watch_query(
     isar: &'static CIsarInstance,
     query: &CIsarQuery,
     port: DartPort,
@@ -79,7 +79,7 @@ pub unsafe extern "C" fn isar_watch_query(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_watch_collection_detailed(
+pub unsafe extern "C" fn isar_plus_watch_collection_detailed(
     isar: &'static CIsarInstance,
     collection_index: u16,
     port: DartPort,
@@ -103,6 +103,6 @@ pub unsafe extern "C" fn isar_watch_collection_detailed(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_stop_watching(handle: *mut WatchHandle) {
+pub unsafe extern "C" fn isar_plus_stop_watching(handle: *mut WatchHandle) {
     Box::from_raw(handle).stop();
 }

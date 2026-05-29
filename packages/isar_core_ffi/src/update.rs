@@ -6,7 +6,7 @@ use isar_core::core::instance::IsarInstance;
 use isar_core::core::value::IsarValue;
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_update(
+pub unsafe extern "C" fn isar_plus_update(
     isar: &'static CIsarInstance,
     txn: &CIsarTxn,
     collection_index: u16,
@@ -32,7 +32,7 @@ pub unsafe extern "C" fn isar_update(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_query_update(
+pub unsafe extern "C" fn isar_plus_query_update(
     isar: &'static CIsarInstance,
     txn: &'static CIsarTxn,
     query: &'static CIsarQuery,
@@ -62,12 +62,12 @@ pub unsafe extern "C" fn isar_query_update(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_update_new() -> *mut CIsarUpdate {
+pub unsafe extern "C" fn isar_plus_update_new() -> *mut CIsarUpdate {
     Box::into_raw(Box::new(CIsarUpdate(Vec::new())))
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_update_add_value(
+pub unsafe extern "C" fn isar_plus_update_add_value(
     update: &'static mut CIsarUpdate,
     property_index: u16,
     value: *mut IsarValue,

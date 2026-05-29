@@ -55,7 +55,7 @@ class _IsarImpl extends Isar {
 
     final isarPtrPtr = IsarCore.ptrPtr.cast<Pointer<CIsarInstance>>();
     IsarCore.b
-        .isar_open_instance(
+        .isar_plus_open_instance(
           isarPtrPtr,
           instanceId,
           namePtr,
@@ -80,9 +80,9 @@ class _IsarImpl extends Isar {
     // IsarCore._initialize can return FutureOr<void> which may complete async
     // ignore: discarded_futures
     IsarCore._initialize(library: library);
-    var ptr = IsarCore.b.isar_get_instance(instanceId, false);
+    var ptr = IsarCore.b.isar_plus_get_instance(instanceId, false);
     if (ptr.isNull) {
-      ptr = IsarCore.b.isar_get_instance(instanceId, true);
+      ptr = IsarCore.b.isar_plus_get_instance(instanceId, true);
     }
     if (ptr.isNull) {
       throw IsarNotReadyError(
@@ -224,13 +224,13 @@ class _IsarImpl extends Isar {
 
   @override
   late final String name = () {
-    final length = IsarCore.b.isar_get_name(getPtr(), IsarCore.stringPtrPtr);
+    final length = IsarCore.b.isar_plus_get_name(getPtr(), IsarCore.stringPtrPtr);
     return utf8.decode(IsarCore.stringPtr.asU8List(length));
   }();
 
   @override
   late final String directory = () {
-    final length = IsarCore.b.isar_get_dir(getPtr(), IsarCore.stringPtrPtr);
+    final length = IsarCore.b.isar_plus_get_dir(getPtr(), IsarCore.stringPtrPtr);
     return utf8.decode(IsarCore.stringPtr.asU8List(length));
   }();
 
@@ -310,13 +310,13 @@ class _IsarImpl extends Isar {
 
     final ptr = getPtr();
     final txnPtrPtr = IsarCore.ptrPtr.cast<Pointer<CIsarTxn>>();
-    IsarCore.b.isar_txn_begin(ptr, txnPtrPtr, false).checkNoError();
+    IsarCore.b.isar_plus_txn_begin(ptr, txnPtrPtr, false).checkNoError();
     try {
       _txnPtr = txnPtrPtr.ptrValue;
       _txnWrite = false;
       return callback(this);
     } finally {
-      IsarCore.b.isar_txn_abort(ptr, _txnPtr!);
+      IsarCore.b.isar_plus_txn_abort(ptr, _txnPtr!);
       _txnPtr = null;
     }
   }
@@ -327,17 +327,17 @@ class _IsarImpl extends Isar {
 
     final ptr = getPtr();
     final txnPtrPtr = IsarCore.ptrPtr.cast<Pointer<CIsarTxn>>();
-    IsarCore.b.isar_txn_begin(ptr, txnPtrPtr, true).checkNoError();
+    IsarCore.b.isar_plus_txn_begin(ptr, txnPtrPtr, true).checkNoError();
     try {
       _txnPtr = txnPtrPtr.ptrValue;
       _txnWrite = true;
       final result = callback(this);
-      IsarCore.b.isar_txn_commit(ptr, _txnPtr!).checkNoError();
+      IsarCore.b.isar_plus_txn_commit(ptr, _txnPtr!).checkNoError();
       return result;
     } catch (_) {
       final txnPtr = _txnPtr;
       if (txnPtr != null) {
-        IsarCore.b.isar_txn_abort(ptr, txnPtr);
+        IsarCore.b.isar_plus_txn_abort(ptr, txnPtr);
       }
       rethrow;
     } finally {
@@ -423,7 +423,7 @@ class _IsarImpl extends Isar {
   @override
   void copyToFile(String path) {
     final string = IsarCore._toNativeString(path);
-    IsarCore.b.isar_copy(getPtr(), string).checkNoError();
+    IsarCore.b.isar_plus_copy(getPtr(), string).checkNoError();
   }
 
   @override
@@ -435,7 +435,7 @@ class _IsarImpl extends Isar {
 
   @override
   bool close({bool deleteFromDisk = false}) {
-    final closed = IsarCore.b.isar_close(getPtr(), deleteFromDisk);
+    final closed = IsarCore.b.isar_plus_close(getPtr(), deleteFromDisk);
     _ptr = null;
     _instances.remove(instanceId);
     return closed != 0;
@@ -445,7 +445,7 @@ class _IsarImpl extends Isar {
   void verify() {
     getTxn(
       (isarPtr, txnPtr) =>
-          IsarCore.b.isar_verify(isarPtr, txnPtr).checkNoError(),
+          IsarCore.b.isar_plus_verify(isarPtr, txnPtr).checkNoError(),
     );
   }
 }

@@ -3,7 +3,7 @@ use isar_core::core::reader::IsarReader;
 use std::{ptr, vec};
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_read_id(reader: &'static CIsarReader) -> IsarI64 {
+pub unsafe extern "C" fn isar_plus_read_id(reader: &'static CIsarReader) -> IsarI64 {
     let id = match reader {
         #[cfg(feature = "native")]
         CIsarReader::Native(reader) => reader.read_id(),
@@ -20,7 +20,7 @@ pub unsafe extern "C" fn isar_read_id(reader: &'static CIsarReader) -> IsarI64 {
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_read_null(reader: &'static CIsarReader, index: u32) -> u8 {
+pub unsafe extern "C" fn isar_plus_read_null(reader: &'static CIsarReader, index: u32) -> u8 {
     let is_null = match reader {
         #[cfg(feature = "native")]
         CIsarReader::Native(reader) => reader.is_null(index),
@@ -41,7 +41,7 @@ pub unsafe extern "C" fn isar_read_null(reader: &'static CIsarReader, index: u32
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_read_bool(reader: &'static CIsarReader, index: u32) -> u8 {
+pub unsafe extern "C" fn isar_plus_read_bool(reader: &'static CIsarReader, index: u32) -> u8 {
     let value = match reader {
         #[cfg(feature = "native")]
         CIsarReader::Native(reader) => reader.read_bool(index),
@@ -62,7 +62,7 @@ pub unsafe extern "C" fn isar_read_bool(reader: &'static CIsarReader, index: u32
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_read_byte(reader: &'static CIsarReader, index: u32) -> u8 {
+pub unsafe extern "C" fn isar_plus_read_byte(reader: &'static CIsarReader, index: u32) -> u8 {
     match reader {
         #[cfg(feature = "native")]
         CIsarReader::Native(reader) => reader.read_byte(index),
@@ -78,7 +78,7 @@ pub unsafe extern "C" fn isar_read_byte(reader: &'static CIsarReader, index: u32
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_read_int(reader: &'static CIsarReader, index: u32) -> i32 {
+pub unsafe extern "C" fn isar_plus_read_int(reader: &'static CIsarReader, index: u32) -> i32 {
     match reader {
         #[cfg(feature = "native")]
         CIsarReader::Native(reader) => reader.read_int(index),
@@ -94,7 +94,7 @@ pub unsafe extern "C" fn isar_read_int(reader: &'static CIsarReader, index: u32)
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_read_float(reader: &'static CIsarReader, index: u32) -> f32 {
+pub unsafe extern "C" fn isar_plus_read_float(reader: &'static CIsarReader, index: u32) -> f32 {
     match reader {
         #[cfg(feature = "native")]
         CIsarReader::Native(reader) => reader.read_float(index),
@@ -110,7 +110,7 @@ pub unsafe extern "C" fn isar_read_float(reader: &'static CIsarReader, index: u3
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_read_long(reader: &'static CIsarReader, index: u32) -> IsarI64 {
+pub unsafe extern "C" fn isar_plus_read_long(reader: &'static CIsarReader, index: u32) -> IsarI64 {
     let value = match reader {
         #[cfg(feature = "native")]
         CIsarReader::Native(reader) => reader.read_long(index),
@@ -127,7 +127,7 @@ pub unsafe extern "C" fn isar_read_long(reader: &'static CIsarReader, index: u32
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_read_double(reader: &'static CIsarReader, index: u32) -> f64 {
+pub unsafe extern "C" fn isar_plus_read_double(reader: &'static CIsarReader, index: u32) -> f64 {
     match reader {
         #[cfg(feature = "native")]
         CIsarReader::Native(reader) => reader.read_double(index),
@@ -143,7 +143,7 @@ pub unsafe extern "C" fn isar_read_double(reader: &'static CIsarReader, index: u
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_read_string(
+pub unsafe extern "C" fn isar_plus_read_string(
     reader: &'static CIsarReader,
     index: u32,
     value: *mut *const u8,
@@ -174,7 +174,7 @@ pub unsafe extern "C" fn isar_read_string(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_read_object(
+pub unsafe extern "C" fn isar_plus_read_object(
     reader: &'static CIsarReader,
     index: u32,
 ) -> *mut CIsarReader<'static> {
@@ -206,7 +206,7 @@ pub unsafe extern "C" fn isar_read_object(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_read_list(
+pub unsafe extern "C" fn isar_plus_read_list(
     reader: &'static CIsarReader,
     index: u32,
     list_reader: *mut *mut CIsarReader<'static>,
@@ -243,7 +243,7 @@ pub unsafe extern "C" fn isar_read_list(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_read_to_json(
+pub unsafe extern "C" fn isar_plus_read_to_json(
     reader: &'static CIsarReader,
     buffer: *mut *mut u8,
     buffer_size: *mut u32,
@@ -277,7 +277,7 @@ pub unsafe extern "C" fn isar_read_to_json(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn isar_read_free(reader: *const CIsarReader) {
+pub unsafe extern "C" fn isar_plus_read_free(reader: *const CIsarReader) {
     if !reader.is_null() {
         drop(Box::from_raw(reader as *mut CIsarReader));
     }

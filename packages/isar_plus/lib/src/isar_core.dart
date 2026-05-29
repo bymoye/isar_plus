@@ -92,61 +92,61 @@ abstract final class IsarCore {
       list[i] = str.codeUnitAt(i);
     }
 
-    return b.isar_string(_nativeStringPtr, str.length);
+    return b.isar_plus_string(_nativeStringPtr, str.length);
   }
 
   @tryInline
   /// Reads an ID value from the reader.
   static int readId(Pointer<CIsarReader> reader) {
-    return b.isar_read_id(reader);
+    return b.isar_plus_read_id(reader);
   }
 
   @tryInline
   /// Reads a null check from the reader at the given index.
   static bool readNull(Pointer<CIsarReader> reader, int index) {
-    return b.isar_read_null(reader, index) != 0;
+    return b.isar_plus_read_null(reader, index) != 0;
   }
 
   @tryInline
   /// Reads a boolean value from the reader at the given index.
   static bool readBool(Pointer<CIsarReader> reader, int index) {
-    return b.isar_read_bool(reader, index) != 0;
+    return b.isar_plus_read_bool(reader, index) != 0;
   }
 
   @tryInline
   /// Reads a byte value from the reader at the given index.
   static int readByte(Pointer<CIsarReader> reader, int index) {
-    return b.isar_read_byte(reader, index);
+    return b.isar_plus_read_byte(reader, index);
   }
 
   @tryInline
   /// Reads an integer value from the reader at the given index.
   static int readInt(Pointer<CIsarReader> reader, int index) {
-    return b.isar_read_int(reader, index);
+    return b.isar_plus_read_int(reader, index);
   }
 
   @tryInline
   /// Reads a float value from the reader at the given index.
   static double readFloat(Pointer<CIsarReader> reader, int index) {
-    return b.isar_read_float(reader, index);
+    return b.isar_plus_read_float(reader, index);
   }
 
   @tryInline
   /// Reads a long value from the reader at the given index.
   static int readLong(Pointer<CIsarReader> reader, int index) {
-    return b.isar_read_long(reader, index);
+    return b.isar_plus_read_long(reader, index);
   }
 
   @tryInline
   /// Reads a double value from the reader at the given index.
   static double readDouble(Pointer<CIsarReader> reader, int index) {
-    return b.isar_read_double(reader, index);
+    return b.isar_plus_read_double(reader, index);
   }
 
   @tryInline
   /// Reads a string value from the reader at the given index.
   static String? readString(Pointer<CIsarReader> reader, int index) {
-    final length = b.isar_read_string(reader, index, stringPtrPtr, boolPtr);
+    final length = b.isar_plus_read_string(reader, index, stringPtrPtr, boolPtr);
     if (stringPtr.isNull) {
       return null;
     } else {
@@ -165,7 +165,7 @@ abstract final class IsarCore {
     Pointer<CIsarReader> reader,
     int index,
   ) {
-    return b.isar_read_object(reader, index);
+    return b.isar_plus_read_object(reader, index);
   }
 
   @tryInline
@@ -175,19 +175,19 @@ abstract final class IsarCore {
     int index,
     Pointer<Pointer<CIsarReader>> listReader,
   ) {
-    return b.isar_read_list(reader, index, listReader);
+    return b.isar_plus_read_list(reader, index, listReader);
   }
 
   @tryInline
   /// Frees the reader.
   static void freeReader(Pointer<CIsarReader> reader) {
-    b.isar_read_free(reader);
+    b.isar_plus_read_free(reader);
   }
 
   @tryInline
   /// Writes a null value to the writer at the given index.
   static void writeNull(Pointer<CIsarWriter> writer, int index) {
-    b.isar_write_null(writer, index);
+    b.isar_plus_write_null(writer, index);
   }
 
   @tryInline
@@ -197,31 +197,31 @@ abstract final class IsarCore {
     int index, {
     required bool value,
   }) {
-    b.isar_write_bool(writer, index, value);
+    b.isar_plus_write_bool(writer, index, value);
   }
 
   @tryInline
   /// Writes a byte value to the writer at the given index.
   static void writeByte(Pointer<CIsarWriter> writer, int index, int value) {
-    b.isar_write_byte(writer, index, value);
+    b.isar_plus_write_byte(writer, index, value);
   }
 
   @tryInline
   /// Writes an integer value to the writer at the given index.
   static void writeInt(Pointer<CIsarWriter> writer, int index, int value) {
-    b.isar_write_int(writer, index, value);
+    b.isar_plus_write_int(writer, index, value);
   }
 
   @tryInline
   /// Writes a float value to the writer at the given index.
   static void writeFloat(Pointer<CIsarWriter> writer, int index, double value) {
-    b.isar_write_float(writer, index, value);
+    b.isar_plus_write_float(writer, index, value);
   }
 
   @tryInline
   /// Writes a long value to the writer at the given index.
   static void writeLong(Pointer<CIsarWriter> writer, int index, int value) {
-    b.isar_write_long(writer, index, value);
+    b.isar_plus_write_long(writer, index, value);
   }
 
   @tryInline
@@ -231,7 +231,7 @@ abstract final class IsarCore {
     int index,
     double value,
   ) {
-    b.isar_write_double(writer, index, value);
+    b.isar_plus_write_double(writer, index, value);
   }
 
   @tryInline
@@ -242,7 +242,7 @@ abstract final class IsarCore {
     String value,
   ) {
     final valuePtr = _toNativeString(value);
-    b.isar_write_string(writer, index, valuePtr);
+    b.isar_plus_write_string(writer, index, valuePtr);
   }
 
   @tryInline
@@ -251,7 +251,7 @@ abstract final class IsarCore {
     Pointer<CIsarWriter> writer,
     int index,
   ) {
-    return b.isar_write_object(writer, index);
+    return b.isar_plus_write_object(writer, index);
   }
 
   @tryInline
@@ -260,7 +260,7 @@ abstract final class IsarCore {
     Pointer<CIsarWriter> writer,
     Pointer<CIsarWriter> objectWriter,
   ) {
-    b.isar_write_object_end(writer, objectWriter);
+    b.isar_plus_write_object_end(writer, objectWriter);
   }
 
   static Future<void> _ensureWebPersistence() async {
@@ -284,11 +284,11 @@ abstract final class IsarCore {
 
   static Future<void> _initializeWebPersistence() async {
     final directoryPtr = _toNativeString('isar');
-    final handle = b.isar_web_persistence_start(directoryPtr);
+    final handle = b.isar_plus_web_persistence_start(directoryPtr);
     const pollInterval = Duration(milliseconds: 15);
 
     while (true) {
-      final status = b.isar_web_persistence_poll(handle);
+      final status = b.isar_plus_web_persistence_poll(handle);
       if (status == 0) {
         await Future<void>.delayed(pollInterval);
         continue;
@@ -307,7 +307,7 @@ abstract final class IsarCore {
   }
 
   static String? _currentErrorMessage() {
-    final length = b.isar_get_error(stringPtrPtr);
+    final length = b.isar_plus_get_error(stringPtrPtr);
     final ptr = stringPtr;
     if (length == 0 || ptr.isNull) {
       return null;
@@ -322,7 +322,7 @@ abstract final class IsarCore {
     int index,
     int length,
   ) {
-    return b.isar_write_list(writer, index, length);
+    return b.isar_plus_write_list(writer, index, length);
   }
 
   @tryInline
@@ -331,7 +331,7 @@ abstract final class IsarCore {
     Pointer<CIsarWriter> writer,
     Pointer<CIsarWriter> listWriter,
   ) {
-    b.isar_write_list_end(writer, listWriter);
+    b.isar_plus_write_list_end(writer, listWriter);
   }
 }
 

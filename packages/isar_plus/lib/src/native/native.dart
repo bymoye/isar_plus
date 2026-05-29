@@ -43,7 +43,7 @@ FutureOr<IsarCoreBindings> initializePlatformBindings([String? library]) {
     );
   }
 
-  final coreVersion = bindings.isar_version().cast<Utf8>().toDartString();
+  final coreVersion = bindings.isar_plus_version().cast<Utf8>().toDartString();
   if (coreVersion != Isar.version && coreVersion != 'debug') {
     throw IsarNotReadyError(
       'Incorrect Isar Core version: Required ${Isar.version} found '
@@ -53,7 +53,7 @@ FutureOr<IsarCoreBindings> initializePlatformBindings([String? library]) {
     );
   }
 
-  bindings.isar_connect_dart_api(NativeApi.initializeApiDLData);
+  bindings.isar_plus_connect_dart_api(NativeApi.initializeApiDLData);
 
   return bindings;
 }

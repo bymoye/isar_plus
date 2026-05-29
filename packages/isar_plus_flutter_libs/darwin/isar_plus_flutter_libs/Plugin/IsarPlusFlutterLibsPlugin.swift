@@ -14,6 +14,6 @@ public class IsarPlusFlutterLibsPlugin: NSObject, FlutterPlugin {
         result(FlutterMethodNotImplemented)
     }
     public func dummyMethodToEnforceBundling() {
-        isar_get_error(0)
+        isar_plus_get_error(0)
     }
 }
