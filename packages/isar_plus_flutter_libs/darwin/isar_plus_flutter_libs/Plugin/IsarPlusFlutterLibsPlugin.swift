@@ -14,6 +14,7 @@ public class IsarPlusFlutterLibsPlugin: NSObject, FlutterPlugin {
         result(FlutterMethodNotImplemented)
     }
     public func dummyMethodToEnforceBundling() {
-        isar_plus_get_error(0)
+        var dummy: UnsafePointer<UInt8>? = nil
+        isar_plus_get_error(&dummy)
     }
 }

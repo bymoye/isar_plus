@@ -1,7 +1,8 @@
-## 1.3.2
+## 1.3.3
 
-* fix: rename all FFI C symbols from `isar_` to `isar_plus_`.
-* refactor: compile web persistence functions unconditionally in Rust (stubs on native, real impl on wasm) so bindings are generated automatically.
+* fix(flutter_libs): update Swift plugin `isar_plus_get_error` call to pass pointer instead of integer after signature change; update `Core/include/binding.h` with correct signature.
+
+## 1.3.2
 
 ## 1.3.1
 

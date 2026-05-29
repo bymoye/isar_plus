@@ -1,3 +1,7 @@
+## 1.3.3
+
+* fix(flutter_libs): update Swift plugin `isar_plus_get_error` call to pass pointer instead of integer after signature change; update `Core/include/binding.h` with correct signature.
+
 ## 1.3.2
 
 * fix: rename all FFI C symbols from `isar_` to `isar_plus_`.
