@@ -62,7 +62,7 @@ abstract final class IsarCore {
         if (kIsWeb) {
           await _ensureWebPersistence();
         }
-        await IsarWorkerPool.warmUp();
+
         _initialized = true;
       });
     } else {
@@ -74,9 +74,6 @@ abstract final class IsarCore {
         });
       }
       _initialized = true;
-
-      unawaited(IsarWorkerPool.warmUp());
-
       return null;
     }
   }
