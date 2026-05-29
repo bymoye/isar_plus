@@ -2,4 +2,4 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-char *isar_get_error(uint32_t err);
+uint32_t isar_plus_get_error(const uint8_t **value);
