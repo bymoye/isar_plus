@@ -1,3 +1,8 @@
+## 1.3.2
+
+* fix: rename all FFI C symbols from `isar_` to `isar_plus_`.
+* refactor: compile web persistence functions unconditionally in Rust (stubs on native, real impl on wasm) so bindings are generated automatically.
+
 ## 1.3.1
 
 * fix(native): worker pool was removed because it could not provide the desired results. Further work is needed on this issue.
