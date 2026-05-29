@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:io';
 import 'dart:isolate';
 
-import 'package:logger/logger.dart';
 import 'package:meta/meta.dart' show visibleForTesting;
 
 /// A function type that represents a unit of work to be executed on a worker
@@ -56,9 +54,9 @@ class _PendingTask<T> {
 ///
 /// ## Worker count
 ///
-/// By default the pool creates `(Platform.numberOfProcessors - 1).clamp(2, 8)`
-/// workers. This can be overridden before the first [run] call using
-/// [configure].
+/// By default the pool creates 1 worker. This can be overridden
+/// before the first
+/// [run] call using [configure].
 ///
 /// ## Usage
 ///
@@ -84,14 +82,6 @@ class _PendingTask<T> {
 class IsarWorkerPool {
   // Private constructor prevents instantiation – this is a purely static API.
   IsarWorkerPool._();
-
-  static final _logger = Logger(
-    printer: PrettyPrinter(
-      methodCount: 0,
-      errorMethodCount: 0,
-      printEmojis: false,
-    ),
-  );
 
   /// Overrides the default worker count set by [configure].
   ///
@@ -131,7 +121,6 @@ class IsarWorkerPool {
   /// ```
   static void configure(int workerCount) {
     if (_initFuture != null) {
-      _logger.w('Worker count can only be configured before the first run');
       return;
     }
     _customWorkerCount = workerCount.clamp(1, 16);
@@ -140,11 +129,10 @@ class IsarWorkerPool {
   /// Returns the number of workers that will be (or have been) spawned.
   ///
   /// When a custom value has been set via [configure] that value is returned.
-  /// Otherwise the count is derived from [Platform.numberOfProcessors]:
-  /// `(processors - 1).clamp(2, 8)`.
+  /// Otherwise the count defaults to 1.
   static int get _workerCount {
     if (_customWorkerCount != null) return _customWorkerCount!;
-    return (Platform.numberOfProcessors - 1).clamp(2, 8);
+    return 1;
   }
 
   /// Explicitly starts the worker isolates in the background.
