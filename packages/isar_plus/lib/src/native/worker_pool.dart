@@ -177,7 +177,7 @@ class IsarWorkerPool {
       workers = await Future.wait(futures);
     } catch (_) {
       for (final future in futures) {
-        future.then((w) => w.dispose(), onError: (_) {});
+        unawaited(future.then((w) => w.dispose(), onError: (_) {}));
       }
       _initFuture = null;
       rethrow;
@@ -249,9 +249,14 @@ class IsarWorkerPool {
     if (!_allWorkers.contains(worker)) return;
     while (_pendingQueue.isNotEmpty) {
       final task = _pendingQueue.removeFirst();
-      worker
-          .execute(task.computation, _onWorkerIdle)
-          .then(task.completer.complete, onError: task.completer.completeError);
+      unawaited(
+        worker
+            .execute(task.computation, _onWorkerIdle)
+            .then(
+              task.completer.complete,
+              onError: task.completer.completeError,
+            ),
+      );
       return;
     }
     _idleWorkers.addLast(worker);
@@ -293,7 +298,7 @@ class _WorkerHandle {
   /// [_WorkerHandle] connected to it.
   ///
   /// The isolate runs [_workerEntry] and signals readiness by sending back its
-  /// own [SendPort] on [receivePort].
+  /// own [SendPort] on `receivePort`.
   ///
   /// The spawned isolate is configured with `errorsAreFatal: false` so that
   /// uncaught errors in the isolate do not kill the entire process; errors are
