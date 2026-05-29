@@ -20,7 +20,7 @@ bool _scriptLoaded = false;
 /// Initializes the Isar WebAssembly bindings.
 FutureOr<IsarCoreBindings> initializePlatformBindings([String? library]) async {
   final url =
-      library ?? 'https://unpkg.com/isar_plus@${Isar.version}/isar.wasm';
+      library ?? 'https://unpkg.com/isar_plus@${Isar.version}/isar_plus.wasm';
 
   // Ensure the wasm-bindgen JavaScript glue code is loaded
   if (!_scriptLoaded) {
@@ -61,8 +61,8 @@ Future<void> _loadWasmBindgenScript(String wasmUrl) async {
             (web.Event event) {
               completer.completeError(
                 Exception(
-                  'Failed to load isar.js from $jsUrl. '
-                  'Make sure both isar.wasm and isar.js are '
+                  'Failed to load isar_plus.js from $jsUrl. '
+                  'Make sure both isar_plus.wasm and isar_plus.js are '
                   'available at the same location. '
                   'For local usage, copy both files to your web/ directory.',
                 ),

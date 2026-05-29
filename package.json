@@ -6,7 +6,7 @@
     "url": "git+https://github.com/ahmtydn/isar_plus.git"
   },
   "files": [
-    "isar.wasm",
-    "isar.js"
+    "isar_plus.wasm",
+    "isar_plus.js"
   ]
 }

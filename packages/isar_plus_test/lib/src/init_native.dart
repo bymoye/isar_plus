@@ -40,10 +40,10 @@ Future<void> prepareTest() async {
 String getBinaryPath() {
   final rootDir = path.dirname(path.dirname(Directory.current.path));
   final binaryName = Platform.isWindows
-      ? 'isar.dll'
+      ? 'isar_plus.dll'
       : Platform.isMacOS
-      ? 'libisar.dylib'
-      : 'libisar.so';
+      ? 'libisar_plus.dylib'
+      : 'libisar_plus.so';
   return switch (Abi.current()) {
     Abi.macosArm64 => path.join(
       rootDir,
