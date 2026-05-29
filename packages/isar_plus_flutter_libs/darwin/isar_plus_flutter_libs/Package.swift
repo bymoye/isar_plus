@@ -15,13 +15,13 @@ let package = Package(
     ],
     targets: [
         .binaryTarget(
-            name: "IsarPlusCore",
-            url: "https://github.com/ahmtydn/isar_plus/releases/download/0.0.0-placeholder/IsarPlusCore.xcframework.zip",
+            name: "isar_plus_core",
+            url: "https://github.com/ahmtydn/isar_plus/releases/download/0.0.0-placeholder/isar_plus_core.xcframework.zip",
             checksum: "0000000000000000000000000000000000000000000000000000000000000000"
         ),
         .target(
             name: "CIsarCore",
-            dependencies: ["IsarPlusCore"],
+            dependencies: ["isar_plus_core"],
             path: "Core"
         ),
         .target(

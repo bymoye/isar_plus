@@ -47,43 +47,43 @@ jobs:
         include:
           - name: "Android ARM64"
             os: ubuntu-latest
-            artifact_name: libisar_android_arm64.so
+            artifact_name: libisar_plus_android_arm64.so
             script: build_android.sh
-            upload_path: libisar_android_arm64.so
+            upload_path: libisar_plus_android_arm64.so
           - name: "Android ARMv7"
             os: ubuntu-latest
-            artifact_name: libisar_android_armv7.so
+            artifact_name: libisar_plus_android_armv7.so
             script: build_android.sh armv7
-            upload_path: libisar_android_armv7.so
+            upload_path: libisar_plus_android_armv7.so
           - name: "Android x64"
             os: ubuntu-latest
-            artifact_name: libisar_android_x64.so
+            artifact_name: libisar_plus_android_x64.so
             script: build_android.sh x64
-            upload_path: libisar_android_x64.so
+            upload_path: libisar_plus_android_x64.so
           - name: "Darwin XCFramework"
             os: macos-latest
-            artifact_name: IsarPlusCore.xcframework.zip
+            artifact_name: isar_plus_core.xcframework.zip
             script: build_darwin.sh
             upload_path: |
-              IsarPlusCore.xcframework.zip
-              IsarPlusCore.xcframework.zip.sha256
+              isar_plus_core.xcframework.zip
+              isar_plus_core.xcframework.zip.sha256
           - name: "Linux x64"
             os: ubuntu-latest
-            artifact_name: libisar_linux_x64.so
+            artifact_name: libisar_plus_linux_x64.so
             script: build_linux.sh x64
-            upload_path: libisar_linux_x64.so
+            upload_path: libisar_plus_linux_x64.so
           - name: "Windows x64"
             os: windows-latest
-            artifact_name: isar_windows_x64.dll
+            artifact_name: isar_plus_windows_x64.dll
             script: build_windows.sh x64
-            upload_path: isar_windows_x64.dll
+            upload_path: isar_plus_windows_x64.dll
           - name: "WebAssembly"
             os: ubuntu-latest
             artifact_name: wasm_files
             script: build_wasm.sh
             upload_path: |
-              isar.wasm
-              isar.js
+              isar_plus.wasm
+              isar_plus.js
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6
@@ -157,14 +157,14 @@ jobs:
           fi
 
           gh release create ${{ needs.release_context.outputs.tag }} \
-            libisar_android_arm64.so \
-            libisar_android_armv7.so \
-            libisar_android_x64.so \
-            IsarPlusCore.xcframework.zip \
-            libisar_linux_x64.so \
-            isar_windows_x64.dll \
-            isar.wasm \
-            isar.js \
+            libisar_plus_android_arm64.so \
+            libisar_plus_android_armv7.so \
+            libisar_plus_android_x64.so \
+            isar_plus_core.xcframework.zip \
+            libisar_plus_linux_x64.so \
+            isar_plus_windows_x64.dll \
+            isar_plus.wasm \
+            isar_plus.js \
             --title "Isar Plus ${{ needs.release_context.outputs.tag }}" \
             --generate-notes \
             $PRERELEASE_FLAG
@@ -182,10 +182,10 @@ jobs:
 
       - name: Update Package.swift checksum and URL
         run: |
-          CHECKSUM=$(cat IsarPlusCore.xcframework.zip.sha256)
-          RELEASE_URL="https://github.com/${{ github.repository }}/releases/download/${{ needs.release_context.outputs.tag }}/IsarPlusCore.xcframework.zip"
+          CHECKSUM=$(cat isar_plus_core.xcframework.zip.sha256)
+          RELEASE_URL="https://github.com/${{ github.repository }}/releases/download/${{ needs.release_context.outputs.tag }}/isar_plus_core.xcframework.zip"
           sed -i \
-            -e "s|url: \".*IsarPlusCore.xcframework.zip\"|url: \"${RELEASE_URL}\"|" \
+            -e "s|url: \".*isar_plus_core.xcframework.zip\"|url: \"${RELEASE_URL}\"|" \
             -e "s|checksum: \".*\"|checksum: \"${CHECKSUM}\"|" \
             packages/isar_plus_flutter_libs/darwin/isar_plus_flutter_libs/Package.swift
 

@@ -1,3 +1,8 @@
+## 1.3.0
+
+* refactor: rename all compiled native binary filenames, Rust crate names, and Apple SPM package architectures from `isar` to `isar_plus` (e.g. `libisar` -> `libisar_plus`, `IsarPlusCore` -> `isar_plus_core`) to eliminate naming conflicts and fully align the codebase to the project package namespace.
+* breaking: change default background worker pool count to 1 (down from a processors clamp) to prioritize memory efficiency. Use `Isar.setWorkerCount()` to increase this value for heavier asynchronous workloads.
+
 ## 1.2.9
 
 * fix(native): prevent Scudo `invalid chunk state` crash in async operations by removing per-task `IsarCore` buffer cleanup when running on long-lived worker pool isolates.

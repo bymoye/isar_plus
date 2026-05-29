@@ -2,7 +2,7 @@
 
 cargo install cbindgen
 
-cbindgen --config tool/cbindgen.toml --crate isar --output packages/isar_plus/isar-dart.h
+cbindgen --config tool/cbindgen.toml --crate isar-plus --output packages/isar_plus/isar-dart.h
 
 cd packages/isar_plus
 
