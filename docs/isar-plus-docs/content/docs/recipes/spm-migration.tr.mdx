@@ -22,7 +22,7 @@ Bu geçişten önce eklenti, iOS ve macOS için ayrı CocoaPods podspec dosyalar
 
 - Eklenti kökünde SPM yapılandırması için **tek bir `Package.swift`** kullanır
 - Tüm Darwin (iOS + macOS) native kaynak kodunu **`darwin/Classes/`** altında paylaşır
-- iOS cihaz, iOS simülatör ve macOS dilimlerini içeren **birleşik bir `IsarPlusCore.xcframework`** sunar
+- iOS cihaz, iOS simülatör ve macOS dilimlerini içeren **birleşik bir `isar_plus_core.xcframework`** sunar
 - Tüm CocoaPods artifactlarını (`.podspec` dosyaları, `Podfile`, `Pods/` dizinleri) kaldırır
 
 ## Yeni Darwin Paylaşımlı Yapısı
@@ -41,7 +41,7 @@ packages/isar_plus_flutter_libs/
 
 ## Birleşik XCFramework Yapısı
 
-Native Isar Core kütüphanesi, üç dilim içeren tek bir `IsarPlusCore.xcframework` olarak dağıtılır:
+Native Isar Core kütüphanesi, üç dilim içeren tek bir `isar_plus_core.xcframework` olarak dağıtılır:
 
 | Dilim | Mimari | Açıklama |
 |-------|--------|----------|

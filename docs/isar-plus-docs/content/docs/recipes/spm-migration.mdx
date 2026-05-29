@@ -22,7 +22,7 @@ Prior to this migration, the plugin used separate CocoaPods podspecs for iOS and
 
 - Uses a **single `Package.swift`** at the plugin root for SPM configuration
 - Shares all Darwin (iOS + macOS) native source code under **`darwin/Classes/`**
-- Ships a **unified `IsarPlusCore.xcframework`** containing slices for iOS device, iOS simulator, and macOS
+- Ships a **unified `isar_plus_core.xcframework`** containing slices for iOS device, iOS simulator, and macOS
 - Removes all CocoaPods artifacts (`.podspec` files, `Podfile`, `Pods/` directories)
 
 ## New Darwin Shared Structure
@@ -41,7 +41,7 @@ The `darwin/Classes/` directory is the single source of truth for all Apple plat
 
 ## Unified XCFramework Structure
 
-The native Isar Core library is distributed as a single `IsarPlusCore.xcframework` containing three slices:
+The native Isar Core library is distributed as a single `isar_plus_core.xcframework` containing three slices:
 
 | Slice | Architecture | Description |
 |-------|-------------|-------------|

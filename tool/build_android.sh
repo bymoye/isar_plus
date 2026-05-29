@@ -61,15 +61,15 @@ cd packages/isar_core_ffi
 if [ "$1" = "x64" ]; then
   rustup target add x86_64-linux-android
   cargo build --target x86_64-linux-android --features sqlcipher-vendored --release
-  cp "../../target/x86_64-linux-android/release/libisar.so" "../../libisar_android_x64.so"
+  cp "../../target/x86_64-linux-android/release/libisar_plus.so" "../../libisar_plus_android_x64.so"
 elif [ "$1" = "armv7" ]; then
   rustup target add armv7-linux-androideabi
   cargo build --target armv7-linux-androideabi --features sqlcipher-vendored --release
-  cp "../../target/armv7-linux-androideabi/release/libisar.so" "../../libisar_android_armv7.so"
+  cp "../../target/armv7-linux-androideabi/release/libisar_plus.so" "../../libisar_plus_android_armv7.so"
 else
   rustup target add aarch64-linux-android
   cargo build --target aarch64-linux-android --features sqlcipher-vendored --release
-  cp "../../target/aarch64-linux-android/release/libisar.so" "../../libisar_android_arm64.so"
+  cp "../../target/aarch64-linux-android/release/libisar_plus.so" "../../libisar_plus_android_arm64.so"
 fi
 
 

@@ -68,15 +68,15 @@ extension on Abi {
       case Abi.androidArm:
       case Abi.androidArm64:
       case Abi.androidX64:
-        return 'libisar.so';
+        return 'libisar_plus.so';
       case Abi.macosArm64:
       case Abi.macosX64:
-        return 'libisar.dylib';
+        return 'libisar_plus.dylib';
       case Abi.linuxX64:
-        return 'libisar.so';
+        return 'libisar_plus.so';
       case Abi.windowsArm64:
       case Abi.windowsX64:
-        return 'isar.dll';
+        return 'isar_plus.dll';
       case Abi.androidIA32:
         throw IsarNotReadyError(
           'Unsupported processor architecture. X86 Android emulators are not '

@@ -1,5 +1,5 @@
 [package]
-name = "isar-core"
+name = "isar-plus-core"
 version = "0.0.0"
 authors = ["Simon Choi"]
 edition = "2021"

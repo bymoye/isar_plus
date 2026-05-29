@@ -386,7 +386,7 @@ jobs:
         run: |
           bash tool/build_android.sh x64
           mkdir -p packages/isar_plus_flutter_libs/android/src/main/jniLibs/x86_64
-          mv libisar_android_x64.so packages/isar_plus_flutter_libs/android/src/main/jniLibs/x86_64/libisar.so
+          mv libisar_plus_android_x64.so packages/isar_plus_flutter_libs/android/src/main/jniLibs/x86_64/libisar_plus.so
       - name: Prepare Tests
         run: sh tool/prepare_tests.sh
       - name: Free Disk Space
@@ -425,17 +425,17 @@ jobs:
       - name: Download XCFramework
         uses: actions/download-artifact@v4
         with:
-          name: IsarPlusCore.xcframework.zip
+          name: isar_plus_core.xcframework.zip
           path: .
       - name: Extract XCFramework
-        run: unzip -o IsarPlusCore.xcframework.zip -d packages/isar_plus_flutter_libs/darwin/isar_plus_flutter_libs/Core/
+        run: unzip -o isar_plus_core.xcframework.zip -d packages/isar_plus_flutter_libs/darwin/isar_plus_flutter_libs/Core/
       - name: Prepare Tests
         run: sh tool/prepare_tests.sh
       - name: Run Flutter Driver tests
         run: |
           flutter config --enable-macos-desktop
           flutter config --enable-swift-package-manager
-          sed -i '' 's/url: ".*"/path: "Core\/IsarPlusCore.xcframework"/' ../isar_plus_flutter_libs/darwin/isar_plus_flutter_libs/Package.swift
+          sed -i '' 's/url: ".*"/path: "Core\/isar_plus_core.xcframework"/' ../isar_plus_flutter_libs/darwin/isar_plus_flutter_libs/Package.swift
           sed -i '' '/checksum: .*/d' ../isar_plus_flutter_libs/darwin/isar_plus_flutter_libs/Package.swift
 
           flutter test -d macos integration_test/isar_test.dart --dart-define STRESS=true 2>&1 | tee /tmp/flutter_test_output.txt
@@ -477,7 +477,7 @@ jobs:
       - name: Build Isar Core
         run: |
           bash tool/build_linux.sh x64
-          mv libisar_linux_x64.so packages/isar_plus_flutter_libs/linux/libisar.so
+          mv libisar_plus_linux_x64.so packages/isar_plus_flutter_libs/linux/libisar_plus.so
       - name: Prepare Tests
         run: sh tool/prepare_tests.sh
       - name: Run Flutter Driver tests
@@ -502,7 +502,7 @@ jobs:
       - name: Build Isar Core
         run: |
           bash tool/build_windows.sh x64
-          mv isar_windows_x64.dll packages/isar_plus_flutter_libs/windows/isar.dll
+          mv isar_plus_windows_x64.dll packages/isar_plus_flutter_libs/windows/isar_plus.dll
       - name: Prepare Tests
         run: sh tool/prepare_tests.sh
       - name: Run Flutter Driver tests
@@ -523,8 +523,8 @@ jobs:
       - name: Upload XCFramework
         uses: actions/upload-artifact@v4
         with:
-          name: IsarPlusCore.xcframework.zip
-          path: IsarPlusCore.xcframework.zip
+          name: isar_plus_core.xcframework.zip
+          path: isar_plus_core.xcframework.zip
           retention-days: 1
 
   integration_test_ios:
@@ -550,13 +550,13 @@ jobs:
       - name: Download XCFramework
         uses: actions/download-artifact@v4
         with:
-          name: IsarPlusCore.xcframework.zip
+          name: isar_plus_core.xcframework.zip
           path: .
 
       - name: Extract XCFramework
         run: |
           echo "Extracting XCFramework..."
-          unzip -o IsarPlusCore.xcframework.zip -d packages/isar_plus_flutter_libs/darwin/isar_plus_flutter_libs/Core/
+          unzip -o isar_plus_core.xcframework.zip -d packages/isar_plus_flutter_libs/darwin/isar_plus_flutter_libs/Core/
           ls -lh packages/isar_plus_flutter_libs/darwin/isar_plus_flutter_libs/Core/
 
       - name: Prepare Tests
@@ -574,7 +574,7 @@ jobs:
           # Enable SPM
           flutter config --enable-swift-package-manager
           # Patch Package.swift to use local path for testing
-          sed -i '' 's/url: ".*"/path: "Core\/IsarPlusCore.xcframework"/' ../isar_plus_flutter_libs/darwin/isar_plus_flutter_libs/Package.swift
+          sed -i '' 's/url: ".*"/path: "Core\/isar_plus_core.xcframework"/' ../isar_plus_flutter_libs/darwin/isar_plus_flutter_libs/Package.swift
           sed -i '' '/checksum: .*/d' ../isar_plus_flutter_libs/darwin/isar_plus_flutter_libs/Package.swift
           
           # Get the specific device ID from the simulator action

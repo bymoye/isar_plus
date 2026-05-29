@@ -84,17 +84,17 @@ echo "Preparing local Isar Plus artifacts for targets: ${TARGETS[*]}"
 
 # Clean existing build artifacts before building
 echo "\n==> Cleaning existing build artifacts"
-rm -f "$REPO_ROOT/IsarPlusCore.xcframework.zip"
-rm -rf "$REPO_ROOT/IsarPlusCore.xcframework"
-rm -f "$REPO_ROOT/isar.wasm"
-rm -f "$REPO_ROOT/isar.js"
-rm -f "$REPO_ROOT/libisar_android_arm64.so"
-rm -f "$REPO_ROOT/libisar_android_armv7.so"
-rm -f "$REPO_ROOT/libisar_android_x64.so"
-rm -f "$REPO_ROOT/libisar_linux_x64.so"
-rm -f "$REPO_ROOT/isar_windows_x64.dll"
-rm -f "$EXAMPLE_DIR/web/isar.wasm"
-rm -f "$EXAMPLE_DIR/web/isar.js"
+rm -f "$REPO_ROOT/isar_plus_core.xcframework.zip"
+rm -rf "$REPO_ROOT/isar_plus_core.xcframework"
+rm -f "$REPO_ROOT/isar_plus.wasm"
+rm -f "$REPO_ROOT/isar_plus.js"
+rm -f "$REPO_ROOT/libisar_plus_android_arm64.so"
+rm -f "$REPO_ROOT/libisar_plus_android_armv7.so"
+rm -f "$REPO_ROOT/libisar_plus_android_x64.so"
+rm -f "$REPO_ROOT/libisar_plus_linux_x64.so"
+rm -f "$REPO_ROOT/isar_plus_windows_x64.dll"
+rm -f "$EXAMPLE_DIR/web/isar_plus.wasm"
+rm -f "$EXAMPLE_DIR/web/isar_plus.js"
 echo "Build artifacts cleaned"
 
 declare -a built_artifacts=()
@@ -103,18 +103,18 @@ if has_target "darwin"; then
   echo "\n==> Building Darwin unified XCFramework"
   bash "$SCRIPT_DIR/build_darwin.sh"
   DARWIN_DIR="$REPO_ROOT/packages/isar_plus_flutter_libs/darwin"
-  rm -rf "$DARWIN_DIR/IsarPlusCore.xcframework"
-  unzip -qo "$REPO_ROOT/IsarPlusCore.xcframework.zip" -d "$DARWIN_DIR"
-  built_artifacts+=("darwin xcframework -> packages/isar_plus_flutter_libs/darwin/IsarPlusCore.xcframework")
+  rm -rf "$DARWIN_DIR/isar_plus_core.xcframework"
+  unzip -qo "$REPO_ROOT/isar_plus_core.xcframework.zip" -d "$DARWIN_DIR"
+  built_artifacts+=("darwin xcframework -> packages/isar_plus_flutter_libs/darwin/isar_plus_core.xcframework")
 fi
 
 if has_target "wasm"; then
   echo "\n==> Building WebAssembly bundle"
   bash "$SCRIPT_DIR/build_wasm.sh"
   mkdir -p "$EXAMPLE_DIR/web"
-  cp "$REPO_ROOT/isar.wasm" "$EXAMPLE_DIR/web/isar.wasm"
-  cp "$REPO_ROOT/isar.js" "$EXAMPLE_DIR/web/isar.js"
-  built_artifacts+=("web wasm -> isar.wasm and isar.js")
+  cp "$REPO_ROOT/isar_plus.wasm" "$EXAMPLE_DIR/web/isar_plus.wasm"
+  cp "$REPO_ROOT/isar_plus.js" "$EXAMPLE_DIR/web/isar_plus.js"
+  built_artifacts+=("web wasm -> isar_plus.wasm and isar_plus.js")
 fi
 
 ANDROID_LIB_DIR="$REPO_ROOT/packages/isar_plus_flutter_libs/android/src/main/jniLibs"
@@ -122,40 +122,40 @@ if has_target "android-arm64"; then
   echo "\n==> Building Android ARM64"
   bash "$SCRIPT_DIR/build_android.sh"
   mkdir -p "$ANDROID_LIB_DIR/arm64-v8a"
-  cp "$REPO_ROOT/libisar_android_arm64.so" "$ANDROID_LIB_DIR/arm64-v8a/libisar.so"
-  built_artifacts+=("android arm64 -> .../jniLibs/arm64-v8a/libisar.so")
+  cp "$REPO_ROOT/libisar_plus_android_arm64.so" "$ANDROID_LIB_DIR/arm64-v8a/libisar_plus.so"
+  built_artifacts+=("android arm64 -> .../jniLibs/arm64-v8a/libisar_plus.so")
 fi
 
 if has_target "android-armv7"; then
   echo "\n==> Building Android ARMv7"
   bash "$SCRIPT_DIR/build_android.sh" armv7
   mkdir -p "$ANDROID_LIB_DIR/armeabi-v7a"
-  cp "$REPO_ROOT/libisar_android_armv7.so" "$ANDROID_LIB_DIR/armeabi-v7a/libisar.so"
-  built_artifacts+=("android armv7 -> .../jniLibs/armeabi-v7a/libisar.so")
+  cp "$REPO_ROOT/libisar_plus_android_armv7.so" "$ANDROID_LIB_DIR/armeabi-v7a/libisar_plus.so"
+  built_artifacts+=("android armv7 -> .../jniLibs/armeabi-v7a/libisar_plus.so")
 fi
 
 if has_target "android-x64"; then
   echo "\n==> Building Android x64"
   bash "$SCRIPT_DIR/build_android.sh" x64
   mkdir -p "$ANDROID_LIB_DIR/x86_64"
-  cp "$REPO_ROOT/libisar_android_x64.so" "$ANDROID_LIB_DIR/x86_64/libisar.so"
-  built_artifacts+=("android x64 -> .../jniLibs/x86_64/libisar.so")
+  cp "$REPO_ROOT/libisar_plus_android_x64.so" "$ANDROID_LIB_DIR/x86_64/libisar_plus.so"
+  built_artifacts+=("android x64 -> .../jniLibs/x86_64/libisar_plus.so")
 fi
 
 if has_target "linux-x64"; then
   echo "\n==> Building Linux x64"
   bash "$SCRIPT_DIR/build_linux.sh" x64
   mkdir -p "$REPO_ROOT/packages/isar_plus_flutter_libs/linux"
-  cp "$REPO_ROOT/libisar_linux_x64.so" "$REPO_ROOT/packages/isar_plus_flutter_libs/linux/libisar.so"
-  built_artifacts+=("linux x64 -> packages/isar_plus_flutter_libs/linux/libisar.so")
+  cp "$REPO_ROOT/libisar_plus_linux_x64.so" "$REPO_ROOT/packages/isar_plus_flutter_libs/linux/libisar_plus.so"
+  built_artifacts+=("linux x64 -> packages/isar_plus_flutter_libs/linux/libisar_plus.so")
 fi
 
 if has_target "windows-x64"; then
   echo "\n==> Building Windows x64"
   bash "$SCRIPT_DIR/build_windows.sh" x64
   mkdir -p "$REPO_ROOT/packages/isar_plus_flutter_libs/windows"
-  cp "$REPO_ROOT/isar_windows_x64.dll" "$REPO_ROOT/packages/isar_plus_flutter_libs/windows/isar.dll"
-  built_artifacts+=("windows x64 -> packages/isar_plus_flutter_libs/windows/isar.dll")
+  cp "$REPO_ROOT/isar_plus_windows_x64.dll" "$REPO_ROOT/packages/isar_plus_flutter_libs/windows/isar_plus.dll"
+  built_artifacts+=("windows x64 -> packages/isar_plus_flutter_libs/windows/isar_plus.dll")
 fi
 
 if [[ ! -d "$EXAMPLE_DIR" ]]; then
