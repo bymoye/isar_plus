@@ -2533,11 +2533,47 @@ class IsarCoreBindings {
             void Function(ffi.Pointer<CIsarWriter>, ffi.Pointer<CIsarWriter>)
           >();
 
-  int isar_plus_web_persistence_start(ffi.Pointer<CString> directory) => 0;
+  int isar_plus_web_persistence_start(
+    ffi.Pointer<CString> _dir,
+  ) {
+    return _isar_plus_web_persistence_start(
+      _dir,
+    );
+  }
 
-  int isar_plus_web_persistence_poll(int handle) => 1;
+  late final _isar_plus_web_persistence_startPtr =
+      _lookup<ffi.NativeFunction<ffi.Uint32 Function(ffi.Pointer<CString>)>>(
+        'isar_plus_web_persistence_start',
+      );
+  late final _isar_plus_web_persistence_start =
+      _isar_plus_web_persistence_startPtr
+          .asFunction<int Function(ffi.Pointer<CString>)>();
 
-  int isar_plus_web_persistence_backend() => 0;
+  int isar_plus_web_persistence_poll(
+    int _handle,
+  ) {
+    return _isar_plus_web_persistence_poll(
+      _handle,
+    );
+  }
+
+  late final _isar_plus_web_persistence_pollPtr =
+      _lookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Uint32)>>(
+        'isar_plus_web_persistence_poll',
+      );
+  late final _isar_plus_web_persistence_poll =
+      _isar_plus_web_persistence_pollPtr.asFunction<int Function(int)>();
+
+  int isar_plus_web_persistence_backend() {
+    return _isar_plus_web_persistence_backend();
+  }
+
+  late final _isar_plus_web_persistence_backendPtr =
+      _lookup<ffi.NativeFunction<ffi.Uint8 Function()>>(
+        'isar_plus_web_persistence_backend',
+      );
+  late final _isar_plus_web_persistence_backend =
+      _isar_plus_web_persistence_backendPtr.asFunction<int Function()>();
 }
 
 final class CIsarCursor extends ffi.Opaque {}

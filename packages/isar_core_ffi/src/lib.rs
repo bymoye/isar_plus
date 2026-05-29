@@ -30,6 +30,9 @@ pub mod writer;
 #[cfg(all(feature = "sqlite", target_arch = "wasm32", target_os = "unknown"))]
 pub mod web;
 
+#[cfg(not(all(feature = "sqlite", target_arch = "wasm32", target_os = "unknown")))]
+pub mod web_stub;
+
 #[cfg(feature = "native")]
 type NInstance = <NativeInstance as IsarInstance>::Instance;
 #[cfg(feature = "sqlite")]

@@ -973,6 +973,19 @@ external void isar_plus_write_list_end(
   ffi.Pointer<CIsarWriter> list_writer,
 );
 
+@ffi.Native<ffi.Uint32 Function(ffi.Pointer<CString>)>()
+external int isar_plus_web_persistence_start(
+  ffi.Pointer<CString> _dir,
+);
+
+@ffi.Native<ffi.Uint8 Function(ffi.Uint32)>()
+external int isar_plus_web_persistence_poll(
+  int _handle,
+);
+
+@ffi.Native<ffi.Uint8 Function()>()
+external int isar_plus_web_persistence_backend();
+
 final class CIsarCursor extends ffi.Opaque {}
 
 final class CIsarInstance extends ffi.Opaque {}
