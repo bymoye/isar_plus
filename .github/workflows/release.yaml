@@ -206,14 +206,7 @@ jobs:
           mkdir -p $HOME/.config/dart
           echo '${{ secrets.PUB_JSON }}' >> $HOME/.config/dart/pub-credentials.json
 
-      - name: Publish isar
-        run: |
-          dart pub get
-          dart pub publish --force
-        working-directory: packages/isar_plus
-
-      - name: Publish isar_plus_flutter_libs
-        run: |
-          flutter pub get
-          flutter pub publish --force
-        working-directory: packages/isar_plus_flutter_libs
+      - name: Bootstrap
+        run: flutter pub get
+      - name: Publish packages
+        run: dart run melos publish --no-dry-run --yes
