@@ -49,9 +49,10 @@ class _IsarImpl extends Isar {
     final namePtr = IsarCore._toNativeString(name);
     final directoryPtr = IsarCore._toNativeString(directory);
     final schemaPtr = IsarCore._toNativeString(schemaJson);
-    final encryptionKeyPtr = encryptionKey != null
-        ? IsarCore._toNativeString(encryptionKey)
-        : nullptr;
+    final encryptionKeyPtr =
+        encryptionKey != null
+            ? IsarCore._toNativeString(encryptionKey)
+            : nullptr;
 
     final isarPtrPtr = IsarCore.ptrPtr.cast<Pointer<CIsarInstance>>();
     IsarCore.b
@@ -224,20 +225,25 @@ class _IsarImpl extends Isar {
 
   @override
   late final String name = () {
-    final length = IsarCore.b.isar_plus_get_name(getPtr(), IsarCore.stringPtrPtr);
+    final length = IsarCore.b.isar_plus_get_name(
+      getPtr(),
+      IsarCore.stringPtrPtr,
+    );
     return utf8.decode(IsarCore.stringPtr.asU8List(length));
   }();
 
   @override
   late final String directory = () {
-    final length = IsarCore.b.isar_plus_get_dir(getPtr(), IsarCore.stringPtrPtr);
+    final length = IsarCore.b.isar_plus_get_dir(
+      getPtr(),
+      IsarCore.stringPtrPtr,
+    );
     return utf8.decode(IsarCore.stringPtr.asU8List(length));
   }();
 
   @override
-  late final List<IsarSchema> schemas = generatedSchemas
-      .map((e) => e.schema)
-      .toList();
+  late final List<IsarSchema> schemas =
+      generatedSchemas.map((e) => e.schema).toList();
 
   @override
   bool get isOpen => _ptr != null;

@@ -146,7 +146,12 @@ abstract final class IsarCore {
   @tryInline
   /// Reads a string value from the reader at the given index.
   static String? readString(Pointer<CIsarReader> reader, int index) {
-    final length = b.isar_plus_read_string(reader, index, stringPtrPtr, boolPtr);
+    final length = b.isar_plus_read_string(
+      reader,
+      index,
+      stringPtrPtr,
+      boolPtr,
+    );
     if (stringPtr.isNull) {
       return null;
     } else {
