@@ -1,3 +1,7 @@
+## 1.3.4
+
+* fix(deps): widen analyzer dependency constraints to support analyzer 13.x.
+
 ## 1.3.3
 
 * fix(flutter_libs): update Swift plugin `isar_plus_get_error` call to pass pointer instead of integer after signature change; update `Core/include/binding.h` with correct signature.
