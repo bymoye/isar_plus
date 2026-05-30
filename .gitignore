@@ -14,6 +14,9 @@
 build/
 **/pubspec_overrides.yaml
 
+# Melos
+.melos_tool/
+
 # Rust related
 target/
 *.a

@@ -1,14 +1,15 @@
 name: isar_plus_inspector
+resolution: workspace
 publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.7.0 <4.0.0"
 
 dependencies:
   clickup_fading_scroll:
     git:
-      url: https://github.com/clickup/clickup_fading_scroll
+      url: https://github.com/clickup/clickup_fading_scroll.git
   flutter:
     sdk: flutter
   flutter_riverpod: ^3.0.3
@@ -16,7 +17,7 @@ dependencies:
   font_awesome_flutter: ^10.12.0
   go_router: ^16.3.0
   google_fonts: ^6.3.2
-  isar_plus: ^1.2.2
+  isar_plus: 0.0.0-placeholder
   vm_service: ^15.0.2
   web: ^1.1.1
   web_socket_channel: ^3.0.3

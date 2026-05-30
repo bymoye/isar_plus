@@ -34,9 +34,10 @@ class _PropertyBuilderState extends State<PropertyBuilder> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         InkWell(
-          onTap: widget.children.isNotEmpty
-              ? () => setState(() => _expanded = !_expanded)
-              : null,
+          onTap:
+              widget.children.isNotEmpty
+                  ? () => setState(() => _expanded = !_expanded)
+                  : null,
           customBorder: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -64,9 +65,8 @@ class _PropertyBuilderState extends State<PropertyBuilder> {
                     style: GoogleFonts.jetBrainsMono(
                       fontWeight: widget.bold ? FontWeight.w800 : null,
                       color: theme.colorScheme.onPrimaryContainer,
-                      decoration: widget.underline
-                          ? TextDecoration.underline
-                          : null,
+                      decoration:
+                          widget.underline ? TextDecoration.underline : null,
                     ),
                   ),
                 ),

@@ -15,10 +15,8 @@ class FilterGroup extends FilterOperation {
   @override
   Filter? toIsarFilter() {
     if (filters.isEmpty) return null;
-    final isarFilters = filters
-        .map((e) => e.toIsarFilter())
-        .whereType<Filter>()
-        .toList();
+    final isarFilters =
+        filters.map((e) => e.toIsarFilter()).whereType<Filter>().toList();
     return and ? AndGroup(isarFilters) : OrGroup(isarFilters);
   }
 }
@@ -140,8 +138,9 @@ class QueryGroup extends StatelessWidget {
                           schema: schema,
                           group: filter,
                           level: level + 1,
-                          onChanged: (updated) =>
-                              _performUpdate(add: updated, remove: filter),
+                          onChanged:
+                              (updated) =>
+                                  _performUpdate(add: updated, remove: filter),
                           onDelete: () => _performUpdate(remove: filter),
                         )
                       else
@@ -150,8 +149,11 @@ class QueryGroup extends StatelessWidget {
                             QueryFilter(
                               schema: schema,
                               condition: filter as FilterCondition,
-                              onChanged: (updated) =>
-                                  _performUpdate(add: updated, remove: filter),
+                              onChanged:
+                                  (updated) => _performUpdate(
+                                    add: updated,
+                                    remove: filter,
+                                  ),
                             ),
                             const SizedBox(width: 5),
                             IconButton(

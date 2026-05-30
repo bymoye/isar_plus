@@ -1,0 +1,106 @@
+name: isar_plus_workspace
+publish_to: none
+
+environment:
+  sdk: ">=3.7.0 <4.0.0"
+
+workspace:
+  - packages/isar_plus
+  - packages/isar_plus_flutter_libs
+  - packages/isar_plus_inspector
+  - packages/isar_plus_test
+  - examples/counter
+  - examples/pub
+
+dev_dependencies:
+  melos: ^7.8.0
+
+melos:
+  scripts:
+    dev:setup:
+      run: bash tool/prepare_local_dev.sh
+      description: "Prepare local dev environment (darwin + wasm by default)"
+    format:
+      run: dart format .
+      description: "Format all Dart code across packages"
+    analyze:
+      run: flutter analyze
+      exec:
+        concurrency: 1
+        failFast: false
+      description: "Run flutter analyze on all packages"
+      packageFilters:
+        scope:
+          - isar_plus
+          - isar_plus_flutter_libs
+          - isar_plus_inspector
+          - isar_plus_test
+    build:native:
+      run: bash tool/build.sh
+      description: "Build native binary for the current platform (arch auto-detected)"
+    build:darwin:
+      run: bash tool/build_darwin.sh
+      description: "Build Darwin XCFramework (macOS + iOS)"
+    build:android:
+      run: bash tool/build_android.sh
+      description: "Build Android shared library (arm64 by default, pass armv7/x64 as arg)"
+    build:wasm:
+      run: bash tool/build_wasm.sh
+      description: "Build WebAssembly bundle (isar_plus.wasm + isar_plus.js)"
+    build:linux:
+      run: bash tool/build_linux.sh x64
+      description: "Build Linux x64 shared object"
+    build:windows:
+      run: bash tool/build_windows.sh x64
+      description: "Build Windows x64 DLL"
+    gen:bindings:
+      run: bash tool/generate_bindings.sh
+      description: "Regenerate Rust→C bindings (cbindgen) and Dart FFI bindings (ffigen)"
+    gen:dart:
+      run: flutter pub run build_runner build --delete-conflicting-outputs
+      exec:
+        concurrency: 1
+      description: "Run Dart code generation (build_runner)"
+      packageFilters:
+        scope:
+          - isar_plus_test
+    test:prepare:
+      run: bash tool/prepare_tests.sh
+      description: "Prepare isar_plus_test (generate test files + build_runner)"
+    test:unit:
+      run: dart test
+      exec:
+        concurrency: 1
+      description: "Run Dart unit tests (isar_plus generator tests)"
+      packageFilters:
+        scope:
+          - isar_plus
+    test:flutter:
+      run: flutter test -j 1
+      exec:
+        concurrency: 1
+      description: "Run Flutter tests in isar_plus_test"
+      packageFilters:
+        scope:
+          - isar_plus_test
+    test:web:
+      run: dart test -p chrome
+      exec:
+        concurrency: 1
+      description: "Run web (Chrome) tests in isar_plus_test"
+      packageFilters:
+        scope:
+          - isar_plus_test
+    test:rust:
+      run: cargo test
+      description: "Run Rust unit tests (cargo test in workspace root)"
+    publish:dry:
+      run: dart pub publish --dry-run
+      exec:
+        concurrency: 1
+      description: "Dry-run pub.dev publish for all public packages"
+      packageFilters:
+        noPrivate: true
+    download:binaries:
+      run: bash tool/download_binaries.sh
+      description: "Download pre-built release binaries (used during pub.dev publish)"

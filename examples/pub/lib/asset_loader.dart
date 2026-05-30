@@ -56,10 +56,7 @@ Future<void> loadAssets(PackageAndVersion p) async {
 
   if (readme != null || changelog != null) {
     isar.write((isar) {
-      isar.assets.putAll([
-        if (readme != null) readme,
-        if (changelog != null) changelog,
-      ]);
+      isar.assets.putAll([?readme, ?changelog]);
     });
   }
 }
