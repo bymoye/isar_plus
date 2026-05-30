@@ -20,9 +20,10 @@ Pointer<CFilter> _buildFilter(Filter filter, List<Pointer<void>> pointers) {
       }
     case GreaterCondition():
       final rawValue = filter.value;
-      final value = rawValue is double
-          ? _adjustLowerFloatBound(rawValue, false, filter.epsilon)
-          : rawValue;
+      final value =
+          rawValue is double
+              ? _adjustLowerFloatBound(rawValue, false, filter.epsilon)
+              : rawValue;
       return IsarCore.b.isar_plus_filter_greater(
         filter.property,
         _isarValue(value),
@@ -30,9 +31,10 @@ Pointer<CFilter> _buildFilter(Filter filter, List<Pointer<void>> pointers) {
       );
     case GreaterOrEqualCondition():
       final rawValue = filter.value;
-      final value = rawValue is double
-          ? _adjustLowerFloatBound(rawValue, true, filter.epsilon)
-          : rawValue;
+      final value =
+          rawValue is double
+              ? _adjustLowerFloatBound(rawValue, true, filter.epsilon)
+              : rawValue;
       return IsarCore.b.isar_plus_filter_greater_or_equal(
         filter.property,
         _isarValue(value),
@@ -40,9 +42,10 @@ Pointer<CFilter> _buildFilter(Filter filter, List<Pointer<void>> pointers) {
       );
     case LessCondition():
       final rawValue = filter.value;
-      final value = rawValue is double
-          ? _adjustUpperFloatBound(rawValue, false, filter.epsilon)
-          : rawValue;
+      final value =
+          rawValue is double
+              ? _adjustUpperFloatBound(rawValue, false, filter.epsilon)
+              : rawValue;
       return IsarCore.b.isar_plus_filter_less(
         filter.property,
         _isarValue(value),
@@ -50,9 +53,10 @@ Pointer<CFilter> _buildFilter(Filter filter, List<Pointer<void>> pointers) {
       );
     case LessOrEqualCondition():
       final rawValue = filter.value;
-      final value = rawValue is double
-          ? _adjustUpperFloatBound(rawValue, true, filter.epsilon)
-          : rawValue;
+      final value =
+          rawValue is double
+              ? _adjustUpperFloatBound(rawValue, true, filter.epsilon)
+              : rawValue;
       return IsarCore.b.isar_plus_filter_less_or_equal(
         filter.property,
         _isarValue(value),
@@ -60,13 +64,15 @@ Pointer<CFilter> _buildFilter(Filter filter, List<Pointer<void>> pointers) {
       );
     case BetweenCondition():
       final rawLower = filter.lower;
-      final lower = rawLower is double
-          ? _adjustLowerFloatBound(rawLower, true, filter.epsilon)
-          : rawLower;
+      final lower =
+          rawLower is double
+              ? _adjustLowerFloatBound(rawLower, true, filter.epsilon)
+              : rawLower;
       final rawUpper = filter.upper;
-      final upper = rawUpper is double
-          ? _adjustUpperFloatBound(rawUpper, true, filter.epsilon)
-          : rawUpper;
+      final upper =
+          rawUpper is double
+              ? _adjustUpperFloatBound(rawUpper, true, filter.epsilon)
+              : rawUpper;
       return IsarCore.b.isar_plus_filter_between(
         filter.property,
         _isarValue(lower),
@@ -108,7 +114,10 @@ Pointer<CFilter> _buildFilter(Filter filter, List<Pointer<void>> pointers) {
         for (var i = 0; i < filter.filters.length; i++) {
           filtersPtrPtr.setPtrAt(i, _buildFilter(filter.filters[i], pointers));
         }
-        return IsarCore.b.isar_plus_filter_and(filtersPtrPtr, filter.filters.length);
+        return IsarCore.b.isar_plus_filter_and(
+          filtersPtrPtr,
+          filter.filters.length,
+        );
       }
     case OrGroup():
       if (filter.filters.length == 1) {
@@ -119,10 +128,15 @@ Pointer<CFilter> _buildFilter(Filter filter, List<Pointer<void>> pointers) {
         for (var i = 0; i < filter.filters.length; i++) {
           filtersPtrPtr.setPtrAt(i, _buildFilter(filter.filters[i], pointers));
         }
-        return IsarCore.b.isar_plus_filter_or(filtersPtrPtr, filter.filters.length);
+        return IsarCore.b.isar_plus_filter_or(
+          filtersPtrPtr,
+          filter.filters.length,
+        );
       }
     case NotGroup():
-      return IsarCore.b.isar_plus_filter_not(_buildFilter(filter.filter, pointers));
+      return IsarCore.b.isar_plus_filter_not(
+        _buildFilter(filter.filter, pointers),
+      );
     case ObjectFilter():
       return IsarCore.b.isar_plus_filter_nested(
         filter.property,
@@ -145,7 +159,9 @@ Pointer<CIsarValue> _isarValue(Object? value) {
   } else if (value is bool) {
     return IsarCore.b.isar_plus_value_bool(value);
   } else if (value is DateTime) {
-    return IsarCore.b.isar_plus_value_integer(value.toUtc().microsecondsSinceEpoch);
+    return IsarCore.b.isar_plus_value_integer(
+      value.toUtc().microsecondsSinceEpoch,
+    );
   } else {
     throw ArgumentError('Unsupported filter value type: ${value.runtimeType}');
   }

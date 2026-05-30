@@ -49,7 +49,10 @@ class _IsarQueryImpl<T> extends IsarQuery<T> {
       Pointer<CIsarReader> readerPtr = nullptr;
       final values = <E>[];
       while (true) {
-        readerPtr = IsarCore.b.isar_plus_query_cursor_next(cursorPtr, readerPtr);
+        readerPtr = IsarCore.b.isar_plus_query_cursor_next(
+          cursorPtr,
+          readerPtr,
+        );
         if (readerPtr.isNull) break;
         values.add(deserialize(readerPtr));
       }
