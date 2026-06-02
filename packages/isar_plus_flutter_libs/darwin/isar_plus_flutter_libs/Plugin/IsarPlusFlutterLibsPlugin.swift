@@ -10,15 +10,13 @@ import CIsarCore
 public class IsarPlusFlutterLibsPlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
         let plugin = IsarPlusFlutterLibsPlugin()
-        plugin.dummyMethodToEnforceBundling()
+        plugin.enforceCoreBundling()
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         result(FlutterMethodNotImplemented)
     }
-    public func dummyMethodToEnforceBundling() {
-        var dummy: UnsafePointer<UInt8>? = nil
-        isar_plus_get_error(&dummy)
-        _ = isar_plus_version()
+    private func enforceCoreBundling() {
+        isar_plus_force_link_all_symbols()
     }
 }

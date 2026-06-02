@@ -4,6 +4,11 @@ set -e
 export IPHONEOS_DEPLOYMENT_TARGET=11.0
 export MACOSX_DEPLOYMENT_TARGET=10.13
 
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+
+echo "Generating Darwin force-link symbols..."
+bash "$SCRIPT_DIR/generate_force_link_symbols.sh"
+
 # Add all required targets
 echo "Adding Darwin targets..."
 rustup target add \

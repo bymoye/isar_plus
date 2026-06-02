@@ -22,7 +22,10 @@ let package = Package(
         .target(
             name: "CIsarCore",
             dependencies: ["isar_plus_core"],
-            path: "Core"
+            path: "Core",
+            linkerSettings: [
+                .unsafeFlags(["-Xlinker", "-all_load"], .when(platforms: [.iOS, .macOS]))
+            ]
         ),
         .target(
             name: "isar_plus_flutter_libs",

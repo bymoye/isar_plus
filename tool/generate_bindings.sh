@@ -13,5 +13,8 @@ rm isar-dart.h
 
 dart tool/fix_web_bindings.dart
 
-dart format --fix lib/src/impl/bindings.dart
+dart format --fix lib/src/native/bindings.dart
 dart format  --fix lib/src/web/bindings.dart
+
+cd ../..
+bash tool/generate_force_link_symbols.sh
