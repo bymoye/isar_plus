@@ -1,3 +1,8 @@
+## 1.3.6
+
+* fix(darwin/spm): generate the Darwin force-link symbol anchor and C header from Dart FFI bindings during binding generation, Darwin builds, and release publishing.
+* fix(darwin/spm): expose only `isar_plus_force_link_all_symbols()` through the generated C header while retaining all native FFI entry points in release builds.
+
 ## 1.3.5
 
 * fix(darwin/spm): prevent missing `isar_plus_*` symbols in iOS/macOS release builds by force-loading static core archive during SwiftPM linking.
