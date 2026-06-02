@@ -27,7 +27,10 @@ let package = Package(
         .target(
             name: "isar_plus_flutter_libs",
             dependencies: ["CIsarCore"],
-            path: "Plugin"
+            path: "Plugin",
+            linkerSettings: [
+                .unsafeFlags(["-Xlinker", "-all_load"], .when(platforms: [.iOS, .macOS]))
+            ]
         ),
     ]
 )

@@ -3,3 +3,4 @@
 #include <stdlib.h>
 
 uint32_t isar_plus_get_error(const uint8_t **value);
+const char *isar_plus_version(void);
