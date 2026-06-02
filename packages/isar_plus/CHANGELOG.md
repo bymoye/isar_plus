@@ -1,3 +1,8 @@
+## 1.3.5
+
+* fix(darwin/spm): prevent missing `isar_plus_*` symbols in iOS/macOS release builds by force-loading static core archive during SwiftPM linking.
+* fix(darwin/spm): enforce native core symbol retention from plugin registration by touching `isar_plus_get_error` and `isar_plus_version`.
+
 ## 1.3.4
 
 * fix(deps): widen analyzer dependency constraints to support analyzer 13.x.
