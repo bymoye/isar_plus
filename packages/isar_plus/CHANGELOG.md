@@ -1,3 +1,7 @@
+## 1.3.7
+
+* refactor(web): wrap the generated web FFI bindings in the `IsarBindingsX` extension on `JSIsar` and update imports to use the local `ffi.dart` and `interop.dart`.
+
 ## 1.3.6
 
 * fix(darwin/spm): generate the Darwin force-link symbol anchor and C header from Dart FFI bindings during binding generation, Darwin builds, and release publishing.
