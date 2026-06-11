@@ -4,4 +4,4 @@
 !*.dll
 !*.xcframework/
 !darwin/isar_plus_flutter_libs/Core/force_link_symbols.c
-!binding.h
+!darwin/isar_plus_flutter_libs/Core/include/binding.h
