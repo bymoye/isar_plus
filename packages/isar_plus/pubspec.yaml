@@ -1,7 +1,7 @@
 name: isar_plus
 resolution: workspace
 description: Extremely fast, easy to use, and fully async NoSQL database for Flutter. Enhanced version with additional features.
-version: 0.0.0-placeholder
+version: 1.3.6
 repository: https://github.com/ahmtydn/isar_plus/tree/main/packages/isar_plus
 homepage: https://github.com/ahmtydn/isar_plus
 issue_tracker: https://github.com/ahmtydn/isar_plus/issues
